@@ -1,0 +1,13 @@
+:root {
+  /* color */
+  --color-blue: #4b70f5;
+  --color-light-blue: #3dc2ec;
+  --color-red: #ff0000;
+  --color-light-grey: #d9d9d9;
+  --color-grey: #797a7c;
+  /* ===== */
+
+  /* font */
+  --font-family: "Inter";
+  --font-weight: 900;
+}
