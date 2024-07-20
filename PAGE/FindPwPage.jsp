@@ -31,6 +31,6 @@
         <input id="input_contact" class="input_config" placeholder="연락처 입력"></input>
       </label>
     </form>
-    <button class="action_btn_confing" id="find_pw_btn">비밀번호 찾기</button>
+    <button class="action_btn_config" id="find_pw_btn">비밀번호 찾기</button>
   </section>
 </body>

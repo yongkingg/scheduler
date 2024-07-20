@@ -51,6 +51,6 @@
         </div>
       </label>
     </form>
-    <button class="action_btn_confing" id="sign_up_btn">회원가입</button>
+    <button class="action_btn_config" id="sign_up_btn">회원가입</button>
   </section>
 </body>

@@ -27,6 +27,6 @@
         <input id="input_contact" class="input_config" placeholder="연락처 입력"></input>
       </label>
     </form>
-    <button class="action_btn_confing" id="find_id_btn">아이디 찾기</button>
+    <button class="action_btn_config" id="find_id_btn">아이디 찾기</button>
   </section>
 </body>

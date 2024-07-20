@@ -169,7 +169,15 @@ label p {
   color: var(--color-grey);
 }
 
-.action_btn_confing {
+.svg_background {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  background-color: inherit;
+  border: none;
+}
+
+.action_btn_config {
   width: 500px;
   height: 70px;
   color: white;
@@ -180,6 +188,6 @@ label p {
   font-weight: 900;
 }
 
-.action_btn_confing:hover {
+.action_btn_config:hover {
   background-color: var(--color-light-blue);
 }

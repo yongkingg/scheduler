@@ -31,7 +31,7 @@
         <input id="input_pw" class="input_config" placeholder="비밀번호" type="password"></input>
       </label>
     </form>
-    <button id="login_btn" class="action_btn_confing">로그인</button>
+    <button id="login_btn" class="action_btn_config">로그인</button>
     <div id="button_container">
       <a href="/PAGE/FindIdPage.jsp">아이디 찾기</a>
       <a href="/PAGE/FindPwPage.jsp">비밀번호 찾기</a>
