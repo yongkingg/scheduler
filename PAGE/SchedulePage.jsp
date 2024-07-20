@@ -14,6 +14,50 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Schedule</title>
+  <link rel="styleSheet" href="../CSS/Global/theme.css"/>
+  <link rel="styleSheet" href="../CSS/Global/setting.css"/>
+  <link rel="styleSheet" href="../CSS/SchedulePage.css"/>
 </head>
 <body>
+  <aside id="aside">
+    <button id="aside_btn"></button>
+    <div id="home_btn">
+      <svg></svg>
+      <p>홈</p>
+    </div>
+
+    <div id="profile_box" class="bold_text hide">
+      <h1>yongkingg</h1>
+      <h1>디자인팀 홍길동</h1>
+      <h1>010-1111-1111</h1>
+    </div>
+
+    <div class="member_box hide">
+      <div class="member">김용준</div>
+      <div class="member">김용준</div>
+      <div class="member">김용준</div>
+      <div class="member">김용준</div>
+      <div class="member">김용준</div>
+      <div class="member">김용준</div>
+      <div class="member">김용준</div>
+      <div class="member">김용준</div>
+      <div class="member">김용준</div>
+      <div class="member">김용준</div>
+      <div class="member">김용준</div>
+      <div class="member">김용준</div>
+      <div class="member">김용준</div>
+      <div class="member">김용준</div>
+      <div class="member">김용준</div>
+      <div class="member">김용준</div>
+      <div class="member">김용준</div>
+
+    </div>
+
+    <div class="account_btn_box hide">
+      <button>내 정보 수정</button>
+      <button>로그아웃</button>
+    </div>
+  </aside>
+
+  <script src="../JS/SchedulePage.js"></script>
 </body>

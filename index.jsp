@@ -13,7 +13,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scheduler</title>
+  <title>Login</title>
   <link rel="styleSheet" href="CSS/Global/theme.css"/>
   <link rel="styleSheet" href="CSS/Global/setting.css"/>
   <link rel="styleSheet" href="CSS/LoginPage.css"/>
@@ -31,11 +31,12 @@
         <input id="input_pw" class="input_config" placeholder="비밀번호" type="password"></input>
       </label>
     </form>
-    <button class="action_btn_confing">로그인</button>
+    <button id="login_btn" class="action_btn_confing">로그인</button>
     <div id="button_container">
       <a href="/PAGE/FindIdPage.jsp">아이디 찾기</a>
       <a href="/PAGE/FindPwPage.jsp">비밀번호 찾기</a>
       <a href="/PAGE/SignUpPage.jsp">회원가입</a>
     </div>
   </section>
+  <script src="JS/LoginPage.js"></script>
 </body>

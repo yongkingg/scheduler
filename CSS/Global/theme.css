@@ -8,6 +8,14 @@
   /* ===== */
 }
 
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-blue);
+  border-radius: 20px;
+}
 .bold_text {
   font-family: "Inter";
   font-weight: 900;
