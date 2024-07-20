@@ -21,7 +21,7 @@
 </head>
 <body>
   <section class="bold_text">
-    <h1 id="title">회원가입</h1>
+    <h1 class="title">회원가입</h1>
     <form action="loginAction.jsp" method="post" autocomplete="on">
       <label for="input_id">
         <p>아이디</p>
@@ -51,6 +51,6 @@
         </div>
       </label>
     </form>
-    <button id="sign_up_btn">회원가입</button>
+    <button class="action_btn_confing" id="sign_up_btn">회원가입</button>
   </section>
 </body>
