@@ -14,6 +14,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Schedule</title>
+  <link rel="styleSheet" href="../CSS/Global/theme.css"/>
+  <link rel="styleSheet" href="../CSS/Global/setting.css"/>
+  <link rel="styleSheet" href="../CSS/FindPwPage.css"/>
 </head>
 <body>
+    <section class="bold_text">
+    <h1 class="title">비밀번호 찾기</h1>
+    <form action="loginAction.jsp" method="post" autocomplete="on">
+      <label for="input_id">
+        <p>아이디 입력</p>
+        <input id="input_contact" class="input_config" placeholder="아이디 입력"></input>
+      </label>
+      <label for="input_contact">
+        <p>연락처 입력</p>
+        <input id="input_contact" class="input_config" placeholder="연락처 입력"></input>
+      </label>
+    </form>
+    <button class="action_btn_confing" id="find_pw_btn">비밀번호 찾기</button>
+  </section>
 </body>
