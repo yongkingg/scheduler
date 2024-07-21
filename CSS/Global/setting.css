@@ -134,6 +134,14 @@ input[type="number"]::-webkit-inner-spin-button {
   margin: 0;
 }
 
+input:focus {
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+}
+
 /* my setting */
 * {
   box-sizing: border-box;

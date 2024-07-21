@@ -30,3 +30,7 @@ form {
   justify-content: center;
   gap: 42px;
 }
+
+#button_container a {
+  color: black;
+}

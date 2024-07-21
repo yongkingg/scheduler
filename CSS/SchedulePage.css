@@ -101,13 +101,13 @@ aside {
   min-height: 70px;
   max-height: 70px;
   padding-left: 32px;
-  color: white;
   border-radius: 16px;
   background-color: var(--color-blue);
   font-size: 24px;
   display: flex;
   align-items: center;
   justify-content: start;
+  color: white;
 }
 
 .member:hover {
@@ -191,6 +191,10 @@ aside {
   padding: 8px;
   display: flex;
   flex-direction: column;
+}
+
+#date {
+  color: black;
 }
 
 .grid_item .schedule_count {

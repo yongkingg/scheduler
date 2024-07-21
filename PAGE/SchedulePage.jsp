@@ -31,24 +31,16 @@
       <h1>010-1111-1111</h1>
     </div>
     <div class="member_box hide">
-      <div class="member">김용준</div>
-      <div class="member">김용준</div>
-      <div class="member">김용준</div>
-      <div class="member">김용준</div>
-      <div class="member">김용준</div>
-      <div class="member">김용준</div>
-      <div class="member">김용준</div>
-      <div class="member">김용준</div>
-      <div class="member">김용준</div>
-      <div class="member">김용준</div>
-      <div class="member">김용준</div>
-      <div class="member">김용준</div>
-      <div class="member">김용준</div>
-      <div class="member">김용준</div>
-      <div class="member">김용준</div>
-      <div class="member">김용준</div>
-      <div class="member">김용준</div>
-
+      <a class="member" href="SelectSchedulePage.jsp?key=1">김용준</a>
+      <a class="member" href="SelectSchedulePage.jsp?key=1">김용준</a>
+      <a class="member" href="SelectSchedulePage.jsp?key=1">김용준</a>
+      <a class="member" href="SelectSchedulePage.jsp?key=1">김용준</a>
+      <a class="member" href="SelectSchedulePage.jsp?key=1">김용준</a>
+      <a class="member" href="SelectSchedulePage.jsp?key=1">김용준</a>
+      <a class="member" href="SelectSchedulePage.jsp?key=1">김용준</a>
+      <a class="member" href="SelectSchedulePage.jsp?key=1">김용준</a>
+      <a class="member" href="SelectSchedulePage.jsp?key=1">김용준</a>
+      <a class="member" href="SelectSchedulePage.jsp?key=1">김용준</a>
     </div>
     <div class="account_btn_box hide">
       <button>내 정보 수정</button>
@@ -59,7 +51,8 @@
   <main>
     <section id="date_box" class="bold_text">
       <button id="left_btn" class="svg_background"></button>
-      <h1>2024년 7월</h1>
+      <h1 id="year">2024년</h1>
+      <h1 id="month">7월</h1>
       <button id="right_btn" class="svg_background"></button>
     </section>
 
@@ -78,7 +71,7 @@
           for (int index = 0; index < 31; index++) {
         %>
           <div class="grid_item">
-            <p><%=index+1%></p>
+            <a id="date" href="SelectSchedulePage.jsp?key=0"><%=index+1%></a>
             <a class="schedule_count">23</a>
           </div>
         <%

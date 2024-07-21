@@ -1,0 +1,138 @@
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  align-items: center;
+  overflow-y: auto;
+  scroll-padding-bottom: 32px;
+}
+
+#page_info_box {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 64px;
+}
+
+#date {
+  font-size: 64px;
+}
+
+#member {
+  font-size: 48px;
+}
+
+#input_schedule_box {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+}
+
+#input_content {
+  width: 630px;
+  height: 90px;
+  font-size: 24px;
+  padding: 32px 0 32px 32px;
+  border: 2px solid var(--color-blue);
+  margin-top: 32px;
+}
+
+#input_content::placeholder {
+  color: var(--color-grey);
+}
+
+#input_date_box {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+}
+
+#input_start {
+  flex: 1 0 210px;
+  height: 60px;
+  border: 2px solid var(--color-blue);
+  border-top: none;
+  border-right: none;
+  padding: 12px;
+  text-align: center;
+}
+
+#input_end {
+  flex: 1 0 210px;
+  height: 60px;
+  border: 2px solid var(--color-blue);
+  border-top: none;
+  border-right: none;
+  padding: 12px;
+  text-align: center;
+}
+
+#input_schedule_btn {
+  flex: 1 0 210px;
+  height: 60px;
+  border: 2px solid var(--color-blue);
+  border-top: none;
+  background-color: var(--color-blue);
+  color: white;
+}
+
+#input_schedule_btn:hover {
+  background-color: var(--color-light-blue);
+  border-color: var(--color-light-blue);
+}
+
+#schedule_show_box {
+  padding-top: 16px;
+  gap: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.schedule {
+  width: 630px;
+  min-height: 100px;
+  height: fit-content;
+  border-radius: 16px;
+  padding: 12px 16px;
+  background-color: var(--color-blue);
+  display: flex;
+  flex-direction: column;
+}
+
+#schedule_item_box {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  font-size: 16px;
+  color: white;
+}
+
+#edit_schedule {
+  background: inherit;
+  color: white;
+  border: none;
+  font-size: 16px;
+  margin-left: auto;
+}
+
+#delete_schedule {
+  background: inherit;
+  color: white;
+  border: none;
+  font-size: 16px;
+}
+
+#schedule_content {
+  font-size: 36px;
+  padding-top: 8px;
+  color: white;
+}
+
+#padding {
+  height: 32px;
+}

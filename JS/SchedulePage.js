@@ -30,5 +30,18 @@ asideBtn.addEventListener("click", () => {
 // ======================================================================================= //
 
 // =========================================CALAENDER===================================== //
+var leftBtn = document.getElementById("left_btn");
+var rightBtn = document.getElementById("right_btn");
+var year = document.getElementById("year");
+var month = document.getElementById("month");
 
+leftBtn.addEventListener("click", () => {
+  var currentYear = parseInt(year.innerText);
+  year.innerText = currentYear - 1 + "년";
+});
+
+rightBtn.addEventListener("click", () => {
+  var currentYear = parseInt(year.innerText);
+  year.innerText = currentYear + 1 + "년";
+});
 // ======================================================================================= //
