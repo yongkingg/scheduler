@@ -64,41 +64,28 @@
     </section>
 
     <section id="calender_box" class="bold_text">
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
-      <div class="grid_item"></div>
+      <div id="day_box">
+        <p>월</p>
+        <p>화</p>
+        <p>수</p>
+        <p>목</p>
+        <p>금</p>
+        <p>토</p>
+        <p>일</p>
+      </div>
+      <div id="calender_grid">
+        <%
+          for (int index = 0; index < 31; index++) {
+        %>
+          <div class="grid_item">
+            <p><%=index+1%></p>
+            <a class="schedule_count">23</a>
+          </div>
+        <%
+          }
+        %>
+      </div>
     </section>
   </main>
-
-
-
   <script src="../JS/SchedulePage.js"></script>
 </body>
