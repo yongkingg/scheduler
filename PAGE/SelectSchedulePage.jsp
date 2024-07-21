@@ -25,14 +25,20 @@
     <h1 id="member">김용준님의 일정</h1>
   </section>
 
-  <section id="input_schedule_box">
-    <input id="input_content" class="bold_text" type="text" placeholder="일정을 추가해 보세요"/>
-    <div id="input_date_box" >
-      <input id="input_start" class="bold_text" value="2024년 08월 31일 12시 30분"/>
-      <input id="input_end" class="bold_text" value="2024년 08월 31일 15시 30분" />
-      <button id="input_schedule_btn" class="bold_text">추가하기</button>
-    </div>
-  </section>
+  <%
+    if (key.equals("0")) {
+  %>
+    <section id="input_schedule_box">
+      <input id="input_content" class="bold_text" type="text" placeholder="일정을 추가해 보세요"/>
+      <div id="input_date_box" >
+        <input id="input_start" class="bold_text" value="2024년 08월 31일 12시 30분"/>
+        <input id="input_end" class="bold_text" value="2024년 08월 31일 15시 30분" />
+        <button id="input_schedule_btn" class="bold_text">추가하기</button>
+      </div>
+    </section>
+  <%
+    }
+  %>
 
   <main id="schedule_show_box">
   <%
