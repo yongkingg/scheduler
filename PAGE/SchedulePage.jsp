@@ -72,7 +72,7 @@
         %>
           <div class="grid_item">
             <a id="date" href="SelectSchedulePage.jsp?key=0"><%=index+1%></a>
-            <a class="schedule_count">23</a>
+            <a class="schedule_count" href="SelectSchedulePage.jsp?key=0">23</a>
           </div>
         <%
           }

@@ -45,19 +45,25 @@
     for (int index = 0; index < 5; index++) {
   %>
     <div class="schedule bold_text">
-      <div id="schedule_item_box">
+      <div class="schedule_item_box">
         <p id="start_date">2024/08/31/12:30</p>
         <p> ~ </p>
         <p id="end_date">2024/08/31/12:30</p>
-        <button id="edit_schedule" class="bold_text">수정</button>
-        <button id="delete_schedule" class="bold_text">삭제</button>
+        <%
+          if (key.equals("0")) {
+        %>
+          <button class="edit_schedule bold_text">수정</button>
+          <button class="delete_schedule bold_text">삭제</button>
+        <%
+          }
+        %>
       </div>
-      <p id="schedule_content">스케줄스케줄스케줄스케줄스스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄케줄</p>
+      <p class="schedule_content">스케줄스케줄스케줄스케줄스스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄케줄</p>
     </div>
   <%
     }
   %>
     <div id="padding"></div>
-
   </main>
+  <script src="../JS/SelectSchedulePage.js"></script>
 </body>

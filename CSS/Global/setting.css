@@ -138,8 +138,13 @@ input:focus {
   outline: none;
 }
 
+button {
+  border: none;
+}
+
 a {
   text-decoration: none;
+  color: var(--main-blue);
 }
 
 /* my setting */

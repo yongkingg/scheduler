@@ -103,7 +103,7 @@ body {
   flex-direction: column;
 }
 
-#schedule_item_box {
+.schedule_item_box {
   display: flex;
   flex-direction: row;
   gap: 8px;
@@ -112,7 +112,7 @@ body {
   color: white;
 }
 
-#edit_schedule {
+.edit_schedule {
   background: inherit;
   color: white;
   border: none;
@@ -120,17 +120,25 @@ body {
   margin-left: auto;
 }
 
-#delete_schedule {
+.delete_schedule {
   background: inherit;
   color: white;
   border: none;
   font-size: 16px;
 }
 
-#schedule_content {
+.schedule_content {
   font-size: 36px;
   padding-top: 8px;
   color: white;
+}
+
+.edit_schedule_input {
+  margin: 8px 0;
+  padding: 8px;
+  flex-grow: 1;
+  font-size: 24px;
+  border: none;
 }
 
 #padding {
