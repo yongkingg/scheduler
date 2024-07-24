@@ -23,8 +23,43 @@ main {
   padding-top: 24px;
 }
 
-#date_box h1 {
+#date_box h1,
+button {
   font-size: 64px;
+  font-weight: 900;
+  font-family: "Inter";
+  background: none;
+}
+
+#month_selector {
+  width: fit-content;
+  height: fit-content;
+  background-color: white;
+  border: 2px solid var(--color-blue);
+  position: fixed;
+  top: 110px;
+  left: 50%;
+  display: grid;
+  grid-template-rows: repeat(3, 80px);
+  grid-template-columns: repeat(4, 80px);
+  grid-gap: 15px;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+#month_selector button {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  background-color: var(--color-blue);
+  color: white;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  align-self: center;
+  justify-self: center;
+  border: 2px solid var(--color-blue);
+  padding: 5px;
+  font-size: 24px;
 }
 
 aside {
@@ -134,6 +169,7 @@ aside {
   color: white;
   border: none;
   white-space: nowrap;
+  font-size: 16px;
 }
 
 .account_btn_box button:hover {
@@ -173,7 +209,12 @@ aside {
   display: flex;
   font-size: 24px;
   padding: 8px;
-  gap: 135px;
+}
+
+#day_box p {
+  flex-grow: 1; /* 요일 항목들이 균등하게 공간을 차지하도록 함 */
+  text-align: start; /* 가운데 정렬 */
+  margin: 0; /* 여백 제거 */
 }
 
 #calender_grid {
