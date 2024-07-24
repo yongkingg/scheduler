@@ -10,8 +10,22 @@
 <%
   // get current date //
   Calendar calendar = new GregorianCalendar();
-  int month = calendar.get(Calendar.MONTH) + 1;
-  int year = calendar.get(Calendar.YEAR);
+
+  String month = request.getParameter("month");
+  if (month == null || month.trim().isEmpty()) {
+    month = String.valueOf(calendar.get(Calendar.MONTH));
+  }
+
+  String year = request.getParameter("year");
+  if (year == null || year.trim().isEmpty()) {
+    year = String.valueOf(calendar.get(Calendar.YEAR));
+  }
+
+  calendar = new GregorianCalendar(Integer.parseInt(year), Integer.parseInt(month) - 1, 1);
+  int days = calendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+  int firstDay = calendar.get(Calendar.DAY_OF_WEEK); // 1일의 요일
+  String[] daysOfWeek = {"", "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"};
+  String firstDayOfWeekStr = daysOfWeek[firstDay];
   // ================ //
 
   request.setCharacterEncoding("utf-8");
@@ -80,20 +94,43 @@
     </section>
     <section id="calender_box" class="bold_text">
       <div id="day_box">
+        <p style="color : red">일</p>
         <p>월</p>
         <p>화</p>
         <p>수</p>
         <p>목</p>
         <p>금</p>
-        <p>토</p>
-        <p>일</p>
+        <p style="color : blue">토</p>
       </div>
       <div id="calender_grid">
         <%
-          for (int index = 0; index < 31; index++) {
+          int startColumn = firstDay;
+          int startRow = 1;
+          int totalColumns = 7;
+          int totalRows = 6;
+
+          for (int index = 0; index < days; index++) {
+            int column = startColumn + (index % totalColumns);
+            int row = startRow + (index / totalColumns);
+
+            if (column > totalColumns) {
+              column = (column - 1) % totalColumns + 1;
+              row += 1;
+            }
+            if (row > totalRows) {
+              row = totalRows;
+            }
+
+            String isSpecialColumn = "";
+            if (column == 1) {
+              isSpecialColumn += "sunday_column";
+            }
+            if (column == 7) {
+              isSpecialColumn += "saturday_column";
+            }
         %>
-          <div class="grid_item">
-            <a id="date" href="SelectSchedulePage.jsp?key=0"><%=index+1%></a>
+          <div class="grid_item" style="grid-column: <%= column %>; grid-row: <%= row %>;">
+            <a class="date <%=isSpecialColumn%>" href="SelectSchedulePage.jsp?key=0"><%= index + 1 %></a>
             <a class="schedule_count" href="SelectSchedulePage.jsp?key=0">23</a>
           </div>
         <%
@@ -102,6 +139,7 @@
       </div>
     </section>
   </main>
-
+  <script>console.log("<%=firstDayOfWeekStr%>")</script>
+  <script>console.log("<%=firstDay%>")</script>
   <script src="../JS/SchedulePage.js"></script>
 </body>

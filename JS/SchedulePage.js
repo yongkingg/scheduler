@@ -75,6 +75,7 @@ window.addEventListener("load", () => {
 //===========================================================================================//
 
 // ======================================= 월 선택 모달 출력 ================================= //
+// 월 모달 띄우고 닫기
 var monthButton = document.getElementById("month");
 var monthSelector = document.getElementById("month_selector");
 monthButton.addEventListener("click", () => {
@@ -85,16 +86,18 @@ monthButton.addEventListener("click", () => {
   }
 });
 
+// 월 모달에서 선택하기
 var monthList = monthSelector.getElementsByTagName("button");
 Array.from(monthList).forEach((element) => {
   element.addEventListener("click", () => {
     monthButton.innerText = element.innerText + "월";
     monthSelector.classList.add("hide");
+    location.href = "../PAGE/SchedulePage.jsp?month=" + element.innerText;
   });
 });
 
+// 월 모달 켜놓은 상태에서 바깥쪽 클릭 시 모달 닫음
 document.addEventListener("click", (event) => {
-  // monthButton이나 monthSelector 내부를 클릭한 경우 아무 작업도 하지 않음
   if (!monthSelector.contains(event.target) && event.target !== monthButton) {
     monthSelector.classList.add("hide");
   }
