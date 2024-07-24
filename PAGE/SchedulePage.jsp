@@ -6,19 +6,29 @@
 <%@ page import="java.util.Calendar" %>
 <%@ page import="java.util.GregorianCalendar" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="java.util.regex.Pattern" %>
+<%@ page import="java.util.regex.Matcher" %>
 
 <%
+  // 사용자 입력 값을 받아옵니다.
+
+  // 숫자만 필터링하는 메서드 호출
+
   // get current date //
   Calendar calendar = new GregorianCalendar();
 
   String month = request.getParameter("month");
   if (month == null || month.trim().isEmpty()) {
-    month = String.valueOf(calendar.get(Calendar.MONTH));
+    month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
+  } else {
+    month = filterNumbers(month);
   }
 
   String year = request.getParameter("year");
   if (year == null || year.trim().isEmpty()) {
     year = String.valueOf(calendar.get(Calendar.YEAR));
+  } else {
+    year = filterNumbers(year);
   }
 
   calendar = new GregorianCalendar(Integer.parseInt(year), Integer.parseInt(month) - 1, 1);
@@ -32,6 +42,24 @@
   Class.forName("org.mariadb.jdbc.Driver");
   Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
 %>
+
+<%!
+    // 숫자만 필터링하는 메서드
+    public String filterNumbers(String input) {
+        if (input == null) {
+            return "";
+        }
+        // 정규 표현식을 사용하여 숫자만 추출
+        StringBuilder numbers = new StringBuilder();
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(input);
+        while (matcher.find()) {
+            numbers.append(matcher.group());
+        }
+        return numbers.toString();
+    }
+%>
+
 
 <head>
   <meta charset="UTF-8" />
@@ -139,7 +167,5 @@
       </div>
     </section>
   </main>
-  <script>console.log("<%=firstDayOfWeekStr%>")</script>
-  <script>console.log("<%=firstDay%>")</script>
   <script src="../JS/SchedulePage.js"></script>
 </body>

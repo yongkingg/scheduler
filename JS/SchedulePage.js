@@ -38,11 +38,21 @@ var month = document.getElementById("month");
 leftBtn.addEventListener("click", () => {
   var currentYear = parseInt(year.innerText);
   year.innerText = currentYear - 1 + "년";
+  location.href =
+    "../PAGE/SchedulePage.jsp?year=" +
+    (currentYear - 1) +
+    "&month=" +
+    monthButton.innerText;
 });
 
 rightBtn.addEventListener("click", () => {
   var currentYear = parseInt(year.innerText);
   year.innerText = currentYear + 1 + "년";
+  location.href =
+    "../PAGE/SchedulePage.jsp?year=" +
+    (currentYear + 1) +
+    "&month=" +
+    monthButton.innerText;
 });
 // ======================================================================================= //
 
@@ -54,7 +64,7 @@ logOutBtn.addEventListener("click", () => {
     location.href = "../index.jsp";
   }
 });
-//============================================================================//
+//========================================================================================//
 
 // ======================================= editProfile ==================================== //
 var editProfileBtn = document.getElementById("edit_profile_btn");

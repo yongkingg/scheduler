@@ -1,5 +1,4 @@
 var editButtons = document.getElementsByClassName("edit_schedule");
-
 Array.from(editButtons).forEach(function (editButton) {
   editButton.addEventListener("click", function () {
     var scheduleDiv = this.closest(".schedule");
@@ -23,6 +22,17 @@ Array.from(editButtons).forEach(function (editButton) {
           toggleButtonState(itemBox, this, "삭제");
         }
       }
+    }
+  });
+});
+
+var deleteButtons = document.getElementsByClassName("delete_schedule");
+Array.from(deleteButtons).forEach((element) => {
+  element.addEventListener("click", () => {
+    var confirmAlert = confirm("일정을 삭제하시겠습니까?");
+    if (confirmAlert) {
+      location.href = "../PAGE/SelectSchedulePage.jsp?key=0";
+      alert("일정이 삭제되었습니다.");
     }
   });
 });
