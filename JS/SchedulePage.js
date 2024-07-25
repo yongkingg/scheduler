@@ -126,7 +126,13 @@ var gridItem = document.querySelectorAll(".grid_item");
 Array.from(gridItem).forEach((element) => {
   element.addEventListener("click", () => {
     location.href =
-      "../PAGE/SelectSchedulePage.jsp?key=0" + "&day=" + element.dataset.day;
+      "../PAGE/SelectSchedulePage.jsp?key=0" +
+      "&year=" +
+      year.innerText +
+      "&month=" +
+      month.innerText +
+      "&day=" +
+      element.dataset.day;
   });
 });
 //===========================================================================================//

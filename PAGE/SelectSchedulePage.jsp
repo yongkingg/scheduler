@@ -3,14 +3,33 @@
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.util.Calendar" %>
+<%@ page import="java.util.GregorianCalendar" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="utils.Utils" %>
 
 <%
-    String key = request.getParameter("key");
-    String day = request.getParameter("day");
-    
-    request.setCharacterEncoding("utf-8");
-    Class.forName("org.mariadb.jdbc.Driver");
-    Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
+  Calendar calendar = new GregorianCalendar();
+  String key = request.getParameter("key");
+  String days = request.getParameter("day");
+
+  String month = request.getParameter("month");
+  if (month == null || month.trim().isEmpty()) {
+    month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
+  } else {
+    month = Utils.filterNumbers(month);  
+  }
+
+  String year = request.getParameter("year");
+  if (year == null || year.trim().isEmpty()) {
+    year = String.valueOf(calendar.get(Calendar.YEAR));
+  } else {
+    year = Utils.filterNumbers(year); 
+  }
+
+  request.setCharacterEncoding("utf-8");
+  Class.forName("org.mariadb.jdbc.Driver");
+  Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
 %>
 
 <head>
@@ -23,8 +42,19 @@
 </head>
 <body>
   <section id="page_info_box" class="bold_text">
-    <h1 id="date">2024년 8월 31일</h1>
-    <h1 id="member">김용준님의 일정</h1>
+    <%
+      if (key.equals("0")) {
+    %>
+      <h1 id="date"><%= year %>년 <%= month %>월 <%= days%>일</h1>      <h1 id="member">김용준님의 일정</h1>
+    <%
+      } else {
+    %>
+      <h1 id="date">2024년 8월</h1>
+      <h1 id="member">김용준님의 일정</h1>
+    <%
+      }
+    %>
+
   </section>
 
   <%

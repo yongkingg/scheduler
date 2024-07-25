@@ -6,8 +6,6 @@
 <%@ page import="java.util.Calendar" %>
 <%@ page import="java.util.GregorianCalendar" %>
 <%@ page import="java.util.Date" %>
-<%@ page import="java.util.regex.Pattern" %>
-<%@ page import="java.util.regex.Matcher" %>
 <%@ page import="utils.Utils" %>
 
 <%
