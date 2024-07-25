@@ -114,8 +114,32 @@ document.addEventListener("click", (event) => {
 });
 //===========================================================================================//
 
-// ======================================= 홈 버튼 ================================= //
+// ======================================= 홈 버튼 ========================================== //
 var homeBtn = document.getElementById("home_btn");
 homeBtn.addEventListener("click", () => {
   location.href = "../PAGE/SchedulePage.jsp";
+});
+//===========================================================================================//
+
+// ======================================= 날짜 클릭 버튼 ========================================== //
+var gridItem = document.querySelectorAll(".grid_item");
+Array.from(gridItem).forEach((element) => {
+  element.addEventListener("click", () => {
+    location.href =
+      "../PAGE/SelectSchedulePage.jsp?key=0" + "&day=" + element.dataset.day;
+  });
+});
+//===========================================================================================//
+
+// ======================================= aside member 버튼 클릭 ========================================== //
+var members = document.querySelectorAll(".member");
+Array.from(members).forEach((element) => {
+  element.addEventListener("click", () => {
+    location.href =
+      "../PAGE/SelectSchedulePage.jsp?key=1" +
+      "&year=" +
+      year.innerText +
+      "&month=" +
+      month.innerText;
+  });
 });

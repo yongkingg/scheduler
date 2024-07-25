@@ -8,32 +8,28 @@
 <%@ page import="java.util.Date" %>
 <%@ page import="java.util.regex.Pattern" %>
 <%@ page import="java.util.regex.Matcher" %>
+<%@ page import="utils.Utils" %>
 
 <%
-  // 사용자 입력 값을 받아옵니다.
-
-  // 숫자만 필터링하는 메서드 호출
-
-  // get current date //
   Calendar calendar = new GregorianCalendar();
 
   String month = request.getParameter("month");
   if (month == null || month.trim().isEmpty()) {
     month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
   } else {
-    month = filterNumbers(month);
+    month = Utils.filterNumbers(month);  // Calling static method from Utils class
   }
 
   String year = request.getParameter("year");
   if (year == null || year.trim().isEmpty()) {
     year = String.valueOf(calendar.get(Calendar.YEAR));
   } else {
-    year = filterNumbers(year);
+    year = Utils.filterNumbers(year);  // Calling static method from Utils class
   }
 
   calendar = new GregorianCalendar(Integer.parseInt(year), Integer.parseInt(month) - 1, 1);
   int days = calendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
-  int firstDay = calendar.get(Calendar.DAY_OF_WEEK); // 1일의 요일
+  int firstDay = calendar.get(Calendar.DAY_OF_WEEK);
   String[] daysOfWeek = {"", "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"};
   String firstDayOfWeekStr = daysOfWeek[firstDay];
   // ================ //
@@ -42,24 +38,6 @@
   Class.forName("org.mariadb.jdbc.Driver");
   Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
 %>
-
-<%!
-    // 숫자만 필터링하는 메서드
-    public String filterNumbers(String input) {
-        if (input == null) {
-            return "";
-        }
-        // 정규 표현식을 사용하여 숫자만 추출
-        StringBuilder numbers = new StringBuilder();
-        Pattern pattern = Pattern.compile("\\d+");
-        Matcher matcher = pattern.matcher(input);
-        while (matcher.find()) {
-            numbers.append(matcher.group());
-        }
-        return numbers.toString();
-    }
-%>
-
 
 <head>
   <meta charset="UTF-8" />
@@ -82,16 +60,13 @@
       <h1>010-1111-1111</h1>
     </div>
     <div class="member_box hide">
-      <a class="member" href="SelectSchedulePage.jsp?key=1">김용준</a>
-      <a class="member" href="SelectSchedulePage.jsp?key=1">김용준</a>
-      <a class="member" href="SelectSchedulePage.jsp?key=1">김용준</a>
-      <a class="member" href="SelectSchedulePage.jsp?key=1">김용준</a>
-      <a class="member" href="SelectSchedulePage.jsp?key=1">김용준</a>
-      <a class="member" href="SelectSchedulePage.jsp?key=1">김용준</a>
-      <a class="member" href="SelectSchedulePage.jsp?key=1">김용준</a>
-      <a class="member" href="SelectSchedulePage.jsp?key=1">김용준</a>
-      <a class="member" href="SelectSchedulePage.jsp?key=1">김용준</a>
-      <a class="member" href="SelectSchedulePage.jsp?key=1">김용준</a>
+      <%
+        for (int index=0; index < 9; index++) {
+      %>
+      <a class="member" data-user-idx=<%=index%>>김용준</a>
+      <%
+        }
+      %>
     </div>
     <div class="account_btn_box hide">
       <button id="edit_profile_btn">내 정보 수정</button>
@@ -157,9 +132,9 @@
               isSpecialColumn += "saturday_column";
             }
         %>
-          <div class="grid_item" style="grid-column: <%= column %>; grid-row: <%= row %>;">
-            <a class="date <%=isSpecialColumn%>" href="SelectSchedulePage.jsp?key=0"><%= index + 1 %></a>
-            <a class="schedule_count" href="SelectSchedulePage.jsp?key=0">23</a>
+          <div class="grid_item" data-day=<%=index + 1%> style="grid-column: <%= column %>; grid-row: <%= row %>;">
+            <a class="date <%=isSpecialColumn%>" ><%= index + 1 %></a>
+            <a class="schedule_count">23</a>
           </div>
         <%
           }
