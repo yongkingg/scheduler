@@ -45,18 +45,17 @@
     <%
       if (key.equals("0")) {
     %>
-      <h1 id="date"><%= year %>년 <%= month %>월 <%= days%>일</h1>      <h1 id="member">김용준님의 일정</h1>
+      <h1 id="date"><%= year %>년 <%= month %>월 <%= days%>일</h1>    
+      <h1 id="member">김용준님의 일정</h1>
     <%
       } else {
     %>
-      <h1 id="date">2024년 8월</h1>
+      <h1 id="date"><%= year %>년 <%= month %>월</h1>
       <h1 id="member">김용준님의 일정</h1>
     <%
       }
     %>
-
   </section>
-
   <%
     if (key.equals("0")) {
   %>
