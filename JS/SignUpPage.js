@@ -23,8 +23,8 @@ inputContact.addEventListener("input", () => {
 
   inputContact.value = formattedValue;
 });
-var signUpBtn = document.getElementById("sign_up_btn");
 
+var signUpBtn = document.getElementById("sign_up_btn");
 signUpBtn.addEventListener("click", () => {
   const inputs = [inputId, inputPw, inputName, inputContact];
   for (let i = 0; i < inputs.length; i++) {
