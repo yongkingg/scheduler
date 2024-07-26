@@ -3,19 +3,29 @@ import { nameRegex, contactRegex } from "../JS/Global/regex.js";
 var inputContact = document.getElementById("input_contact");
 var updateBtn = document.getElementById("update_btn");
 updateBtn.addEventListener("click", () => {
-  console.log(checkValidId());
-  // if (checkValidId()) {
-  //   location.href =
-  //     "../PAGE/SchedulePage.jsp?alert=회원정보 변경이 완료되었습니다.";
-  // }
+  console.log(checkValidName());
+  console.log(checkValidContact());
+  console.log(isTeamChecked());
+
+  if (checkValidName() && checkValidContact() && isTeamChecked()) {
+    location.href =
+      "../PAGE/SchedulePage.jsp?alert=회원정보 변경이 완료되었습니다.";
+  }
 });
 
-function checkValidId() {
-  var inputId = document.getElementById("input_name");
-  return nameRegex.test(inputId);
+function checkValidName() {
+  var inputName = document.getElementById("input_name");
+  return nameRegex.test(inputName.value);
 }
 function checkValidContact() {
   var inputContact = document.getElementById("input_contact");
-  return contactRegex.test(inputContact);
+  return contactRegex.test(inputContact.value);
 }
-function isTeamChecked() {}
+function isTeamChecked() {
+  var radioButtons = document.querySelectorAll('input[name="group"]');
+  for (var radio of radioButtons) {
+    if (radio.checked) {
+      return radio.id;
+    }
+  }
+}
