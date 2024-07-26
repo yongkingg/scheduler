@@ -29,4 +29,5 @@
     </form>
     <button class="action_btn_config" id="find_id_btn">아이디 찾기</button>
   </section>
+  <script type="module" src="../JS/FindIdPage.js"></script>
 </body>

@@ -24,7 +24,7 @@
     <form action="loginAction.jsp" method="post" autocomplete="on">
       <label for="input_id">
         <p>아이디 입력</p>
-        <input id="input_contact" class="input_config" placeholder="아이디 입력"></input>
+        <input id="input_id" class="input_config" placeholder="아이디 입력"></input>
       </label>
       <label for="input_contact">
         <p>연락처 입력</p>
@@ -33,4 +33,5 @@
     </form>
     <button class="action_btn_config" id="find_pw_btn">비밀번호 찾기</button>
   </section>
+  <script type="module" src="../JS/FindPwPage.js"></script>
 </body>
