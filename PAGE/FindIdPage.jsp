@@ -19,15 +19,15 @@
   <link rel="styleSheet" href="../CSS/FindIdPage.css"/>
 </head>
 <body>
-    <section class="bold_text">
+  <section class="bold_text">
     <h1 class="title">아이디 찾기</h1>
-    <form action="loginAction.jsp" method="post" autocomplete="on">
+    <form id="find_id_form" action="../ACTION/FindIdAction.jsp" method="post" autocomplete="on">
       <label for="input_contact">
         <p>연락처 입력</p>
-        <input id="input_contact" class="input_config" placeholder="연락처 입력" required></input>
+        <input id="input_contact" class="input_config" placeholder="연락처 입력" maxlength="13"></input>
       </label>
+      <button class="action_btn_config" id="find_id_btn">아이디 찾기</button>
     </form>
-    <button class="action_btn_config" id="find_id_btn">아이디 찾기</button>
   </section>
   <script src="../JS/Global/regex.js"></script>
   <script src="../JS/FindIdPage.js"></script>

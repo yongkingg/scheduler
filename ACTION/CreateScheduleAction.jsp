@@ -5,14 +5,12 @@
 <%@ page import="java.sql.ResultSet" %>
 
 <%
-    String id = request.getParameter("id");
-    String pw = request.getParameter("pw");
     request.setCharacterEncoding("utf-8");
     Class.forName("org.mariadb.jdbc.Driver");
     Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
 %>
 
 <script>
-    location.href="../index.jsp"
-    alert("회원가입이 완료되었습니다.")
+    history.back()
+    alert("일정 입력이 완료되었습니다.")
 </script>

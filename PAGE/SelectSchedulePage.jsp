@@ -62,8 +62,8 @@
     <section id="input_schedule_box">
       <input id="input_content" class="bold_text" type="text" placeholder="일정을 추가해 보세요"/>
       <div id="input_date_box" >
-        <input id="input_start" class="bold_text" value="2024년 08월 31일 12시 30분"/>
-        <input id="input_end" class="bold_text" value="2024년 08월 31일 15시 30분" />
+        <input id="input_start" class="bold_text" placeholder="시작 시간" maxlength="5"/>
+        <input id="input_end" class="bold_text" placeholder="종료 시간" maxlength="5"/>
         <button id="input_schedule_btn" class="bold_text">추가하기</button>
       </div>
     </section>
@@ -96,5 +96,6 @@
   %>
     <div id="padding"></div>
   </main>
+  <script src="../JS/Global/regex.js"></script>
   <script src="../JS/SelectSchedulePage.js"></script>
 </body>

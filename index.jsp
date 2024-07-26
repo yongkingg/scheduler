@@ -18,18 +18,17 @@
   <link rel="styleSheet" href="CSS/Global/setting.css"/>
   <link rel="styleSheet" href="CSS/LoginPage.css"/>
 </head>
-
 <body>
   <section class="bold_text">
     <h1 class="title">SCHEDULER</h1>
-    <form id="login_form" action="loginAction.jsp" method="post" autocomplete="on">
+    <form id="login_form" action="ACTION/LoginAction.jsp" method="post">
       <label for="input_id">
         <p>아이디</p>
-        <input id="input_id" class="input_config" placeholder="아이디" required></input>
+        <input id="input_id" class="input_config" placeholder="아이디" ></input>
       </label>
       <label for="input_pw">
         <p>비밀번호</p>
-        <input id="input_pw" class="input_config" placeholder="비밀번호" type="password" required></input>
+        <input id="input_pw" class="input_config" placeholder="비밀번호" type="password" ></input>
       </label>
       <button id="login_btn" type="submit" class="action_btn_config">로그인</button>
     </form>

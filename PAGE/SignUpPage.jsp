@@ -21,7 +21,7 @@
 <body>
   <section class="bold_text">
     <h1 class="title">회원가입</h1>
-    <form action="loginAction.jsp" method="post" autocomplete="on">
+    <form id="info_form" action="../ACTION/SignUpAction.jsp" method="post">
       <label for="input_id">
         <p>아이디</p>
         <input id="input_id" class="input_config" placeholder="아이디 (8~20자, 영문+숫자 조합)"></input>
@@ -49,8 +49,8 @@
           <input class="group_btn" id="design" type="radio" name="group"><label for="design">디자인팀</label>
         </div>
       </label>
+      <button class="action_btn_config" id="sign_up_btn">회원가입</button>
     </form>
-    <button class="action_btn_config" id="sign_up_btn">회원가입</button>
   </section>
   <div id="padding"></div>
   <script src="../JS/Global/regex.js"></script>

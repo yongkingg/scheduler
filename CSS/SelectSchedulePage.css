@@ -53,22 +53,24 @@ body {
 
 #input_start {
   flex: 1 0 210px;
+  max-width: 210px;
   height: 60px;
   border: 2px solid var(--color-blue);
   border-top: none;
   border-right: none;
-  padding: 12px;
   text-align: center;
+  font-size: 20px;
 }
 
 #input_end {
   flex: 1 0 210px;
+  max-width: 210px;
   height: 60px;
   border: 2px solid var(--color-blue);
   border-top: none;
   border-right: none;
-  padding: 12px;
   text-align: center;
+  font-size: 20px;
 }
 
 #input_schedule_btn {

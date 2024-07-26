@@ -21,17 +21,17 @@
 <body>
     <section class="bold_text">
     <h1 class="title">비밀번호 찾기</h1>
-    <form action="loginAction.jsp" method="post" autocomplete="on">
+    <form id="find_pw_form" action="../ACTION/FindPwAction.jsp" method="post">
       <label for="input_id">
         <p>아이디 입력</p>
-        <input id="input_id" class="input_config" placeholder="아이디 입력" required></input>
+        <input id="input_id" class="input_config" placeholder="아이디 입력"></input>
       </label>
       <label for="input_contact">
         <p>연락처 입력</p>
-        <input id="input_contact" class="input_config" placeholder="연락처 입력" required></input>
+        <input id="input_contact" class="input_config" placeholder="연락처 입력" maxlength="13"></input>
       </label>
+      <button class="action_btn_config" id="find_pw_btn">비밀번호 찾기</button>
     </form>
-    <button class="action_btn_config" id="find_pw_btn">비밀번호 찾기</button>
   </section>
   <script src="../JS/Global/regex.js"></script>
   <script src="../JS/FindPwPage.js"></script>

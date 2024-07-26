@@ -18,3 +18,9 @@ section {
   gap: 16px;
   padding: 50px 65px 45px 65px;
 }
+
+#find_id_form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
