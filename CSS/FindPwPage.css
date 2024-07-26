@@ -23,3 +23,10 @@ form {
   flex-direction: column;
   gap: 16px;
 }
+.input-error {
+  border-color: red;
+}
+.error-message {
+  color: red;
+  display: none;
+}

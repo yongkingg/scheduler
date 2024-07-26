@@ -57,3 +57,7 @@ form {
 .group_box input[type="radio"]:checked + label {
   background-color: var(--color-light-blue);
 }
+
+#padding {
+  height: 55px;
+}

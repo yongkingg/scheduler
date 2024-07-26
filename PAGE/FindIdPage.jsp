@@ -24,10 +24,12 @@
     <form action="loginAction.jsp" method="post" autocomplete="on">
       <label for="input_contact">
         <p>연락처 입력</p>
-        <input id="input_contact" class="input_config" placeholder="연락처 입력"></input>
+        <input id="input_contact" class="input_config" placeholder="연락처 입력" required></input>
       </label>
     </form>
     <button class="action_btn_config" id="find_id_btn">아이디 찾기</button>
   </section>
-  <script type="module" src="../JS/FindIdPage.js"></script>
+  <script src="../JS/Global/regex.js"></script>
+  <script src="../JS/FindIdPage.js"></script>
+
 </body>

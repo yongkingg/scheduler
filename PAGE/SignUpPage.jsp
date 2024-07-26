@@ -5,9 +5,9 @@
 <%@ page import="java.sql.ResultSet" %>
 
 <%
-    request.setCharacterEncoding("utf-8");
-    Class.forName("org.mariadb.jdbc.Driver");
-    Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
+  request.setCharacterEncoding("utf-8");
+  Class.forName("org.mariadb.jdbc.Driver");
+  Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
 %>
 
 <head>
@@ -17,7 +17,6 @@
   <link rel="styleSheet" href="../CSS/Global/theme.css"/>
   <link rel="styleSheet" href="../CSS/Global/setting.css"/>
   <link rel="styleSheet" href="../CSS/SignUpPage.css"/>
-
 </head>
 <body>
   <section class="bold_text">
@@ -25,11 +24,11 @@
     <form action="loginAction.jsp" method="post" autocomplete="on">
       <label for="input_id">
         <p>아이디</p>
-        <input id="input_id" class="input_config" placeholder="아이디"></input>
+        <input id="input_id" class="input_config" placeholder="아이디 (8~20자, 영문+숫자 조합)"></input>
       </label>
       <label for="input_pw">
         <p>비밀번호</p>
-        <input id="input_pw" class="input_config" placeholder="비밀번호" type="password"></input>
+        <input id="input_pw" class="input_config" placeholder="비밀번호 (8~20자 영문+숫자+특수기호)" type="password"></input>
       </label>
       <label for="check_pw">
         <p>비밀번호 재입력</p>
@@ -37,7 +36,7 @@
       </label>
       <label for="input_name">
         <p>이름 입력</p>
-        <input id="input_name" class="input_config" placeholder="이름 입력"></input>
+        <input id="input_name" class="input_config" placeholder="이름 입력(2~6자 한글 조합)"></input>
       </label>
       <label for="input_contact">
         <p>연락처 입력</p>
@@ -53,4 +52,7 @@
     </form>
     <button class="action_btn_config" id="sign_up_btn">회원가입</button>
   </section>
+  <div id="padding"></div>
+  <script src="../JS/Global/regex.js"></script>
+  <script src="../JS/SignUpPage.js"></script>
 </body>

@@ -131,7 +131,7 @@
             }
         %>
           <div class="grid_item" data-day=<%=index + 1%> style="grid-column: <%= column %>; grid-row: <%= row %>;">
-            <a class="date <%=isSpecialColumn%>" ><%= index + 1 %></a>
+            <a class="date <%=isSpecialColumn%>"><%= index + 1 %></a>
             <a class="schedule_count">23</a>
           </div>
         <%

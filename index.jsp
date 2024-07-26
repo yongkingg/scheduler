@@ -5,9 +5,9 @@
 <%@ page import="java.sql.ResultSet" %>
 
 <%
-    request.setCharacterEncoding("utf-8");
-    Class.forName("org.mariadb.jdbc.Driver");
-    Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
+  request.setCharacterEncoding("utf-8");
+  Class.forName("org.mariadb.jdbc.Driver");
+  Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
 %>
 
 <head>
@@ -18,6 +18,7 @@
   <link rel="styleSheet" href="CSS/Global/setting.css"/>
   <link rel="styleSheet" href="CSS/LoginPage.css"/>
 </head>
+
 <body>
   <section class="bold_text">
     <h1 class="title">SCHEDULER</h1>

@@ -1,6 +1,4 @@
 body {
-  display: flex;
-  flex-direction: row;
   padding-left: 100px;
   overflow-x: hidden;
   height: 100vh;
