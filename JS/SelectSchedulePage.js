@@ -34,12 +34,27 @@ function editEvent(event) {
   var schedule = event.target.closest(".schedule");
   var scheduleIdx = schedule.dataset.scheduleIdx;
   var contentTag = schedule.querySelector(".schedule_content");
-  var inputTag = createInputTag(contentTag.innerText);
+  var startTime = schedule.querySelector(".edit_start_time_input");
+  var endTime = schedule.querySelector(".edit_end_time_input");
+  var contentInputTag = createInputTag(
+    contentTag.innerText,
+    "edit_schedule_input"
+  );
+  var startTimeInputTag = createInputTag(
+    startTime.innerText,
+    "edit_start_time_input"
+  );
+  var endTimeInputTag = createInputTag(
+    endTime.innerText,
+    "edit_end_time_input"
+  );
 
   var itemBox = event.target.parentElement;
   itemBox.replaceChild(submitButton, event.target);
   itemBox.replaceChild(cancelBtn, deleteButtons[scheduleIdx]);
-  schedule.replaceChild(inputTag, contentTag);
+  itemBox.replaceChild(startTimeInputTag, startTime);
+  itemBox.replaceChild(endTimeInputTag, endTime);
+  schedule.replaceChild(contentInputTag, contentTag);
 }
 
 function createSubmitButton() {
@@ -70,18 +85,27 @@ function submitEvent(event) {
   }
 }
 
-function createInputTag(content) {
+function createInputTag(content, style) {
   var inputTag = document.createElement("input");
   inputTag.value = content;
-  inputTag.classList.add("edit_schedule_input", "bold_text");
+  inputTag.classList.add(style, "bold_text");
+  if (
+    inputTag.classList.contains("edit_start_time_input") ||
+    inputTag.classList.contains("edit_end_time_input")
+  ) {
+    inputTag.addEventListener("input", () => {
+      inputTag.value = timeRegexForm(inputTag.value);
+    });
+    inputTag.maxLength = "5";
+  }
   inputTag.dataset.originalText = content;
   return inputTag;
 }
 
-function createPTag(content) {
+function createPTag(content, style) {
   var pTag = document.createElement("p");
   pTag.textContent = content;
-  pTag.classList.add("schedule_content", "bold_text");
+  pTag.classList.add(style, "bold_text");
   return pTag;
 }
 
@@ -99,16 +123,25 @@ function cancelEvent(event) {
     var schedule = event.target.closest(".schedule");
     var scheduleIdx = schedule.dataset.scheduleIdx;
     var inputTag = schedule.querySelector(".edit_schedule_input");
-    var contentTag = createPTag(inputTag.value);
+    var contentTag = createPTag(
+      inputTag.dataset.originalText,
+      "schedule_content"
+    );
+
+    var startTimeInputTag = schedule.querySelector(".edit_start_time_input");
+    var endTimeInputTag = schedule.querySelector(".edit_end_time_input");
+    var startTime = createPTag(
+      startTimeInputTag.value,
+      "edit_start_time_input"
+    );
+    var endTime = createPTag(endTimeInputTag.value, "edit_end_time_input");
+
+    var itemBox = event.target.parentElement;
     schedule.replaceChild(contentTag, inputTag);
-    event.target.parentElement.replaceChild(
-      editButtons[scheduleIdx],
-      submitButton
-    );
-    event.target.parentElement.replaceChild(
-      deleteButtons[scheduleIdx],
-      cancelBtn
-    );
+    itemBox.replaceChild(editButtons[scheduleIdx], submitButton);
+    itemBox.replaceChild(deleteButtons[scheduleIdx], cancelBtn);
+    itemBox.replaceChild(startTime, startTimeInputTag);
+    itemBox.replaceChild(endTime, endTimeInputTag);
   }
 }
 // ==================================================일정 추가====================================================== //

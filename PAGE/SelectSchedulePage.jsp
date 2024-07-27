@@ -78,9 +78,9 @@
   %>
     <div class="schedule bold_text" data-schedule-idx="<%=index%>">
       <div class="schedule_item_box">
-        <p id="start_date">2024/08/31/12:30</p>
+        <p>2024/08/31/</p><p class="edit_start_time_input">12:30</p>
         <p> ~ </p>
-        <p id="end_date">2024/08/31/12:30</p>
+        <p>2024/08/31/</p><p class="edit_end_time_input">12:30</p>
         <%
           if (key.equals("0")) {
         %>
