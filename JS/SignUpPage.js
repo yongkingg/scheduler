@@ -18,16 +18,14 @@ signUpBtn.addEventListener("click", (event) => {
   for (let i = 0; i < inputs.length; i++) {
     if (!isValidate(validationRules[i].regex, inputs[i])) {
       alert(validationRules[i].message);
-      event.preventDefault();
       return;
     } else if (inputPw.value !== inputCheckPw.value) {
       alert("비밀번호가 일치하지 않습니다.");
-      event.preventDefault();
       return;
     }
   }
   if (!isTeamChecked()) {
     alert("부서를 선택해 주세요");
-    event.preventDefault();
   }
+  event.preventDefault();
 });

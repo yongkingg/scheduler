@@ -32,6 +32,7 @@
   Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
 %>
 
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -75,7 +76,7 @@
   <%
     for (int index = 0; index < 5; index++) {
   %>
-    <div class="schedule bold_text">
+    <div class="schedule bold_text" data-schedule-idx="<%=index%>">
       <div class="schedule_item_box">
         <p id="start_date">2024/08/31/12:30</p>
         <p> ~ </p>
@@ -98,4 +99,6 @@
   </main>
   <script src="../JS/Global/regex.js"></script>
   <script src="../JS/SelectSchedulePage.js"></script>
+  <script>
+  </script>
 </body>
