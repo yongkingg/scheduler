@@ -11,7 +11,7 @@
 <%
   Calendar calendar = new GregorianCalendar();
   String key = request.getParameter("key");
-  String days = request.getParameter("day");
+  String day = request.getParameter("day");
 
   String month = request.getParameter("month");
   if (month == null || month.trim().isEmpty()) {
@@ -46,7 +46,7 @@
     <%
       if (key.equals("0")) {
     %>
-      <h1 id="date"><%= year %>년 <%= month %>월 <%= days%>일</h1>    
+      <h1 id="date"><%= year %>년 <%= month %>월 <%= day%>일</h1>    
       <h1 id="member">김용준님의 일정</h1>
     <%
       } else {
