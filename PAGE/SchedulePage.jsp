@@ -32,6 +32,7 @@
   String firstDayOfWeekStr = daysOfWeek[firstDay];
   // ================ //
 
+
   request.setCharacterEncoding("utf-8");
   Class.forName("org.mariadb.jdbc.Driver");
   Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");

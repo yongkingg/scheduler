@@ -40,7 +40,7 @@
       </label>
       <label for="input_contact">
         <p>연락처 입력</p>
-        <input id="input_contact" class="input_config" placeholder="연락처 입력 (010-0000-0000)"></input>
+        <input id="input_contact" class="input_config" placeholder="연락처 입력 (010-0000-0000)" maxlength="13"></input>
       </label>
       <label class="group_box">
         <p>부서 선택</p>

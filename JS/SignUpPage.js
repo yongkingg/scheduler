@@ -14,6 +14,7 @@ inputContact.addEventListener("input", () => {
 
 var signUpBtn = document.getElementById("sign_up_btn");
 signUpBtn.addEventListener("click", (event) => {
+  event.preventDefault();
   const inputs = [inputId, inputPw, inputName, inputContact];
   for (let i = 0; i < inputs.length; i++) {
     if (!isValidate(validationRules[i].regex, inputs[i])) {
@@ -26,6 +27,7 @@ signUpBtn.addEventListener("click", (event) => {
   }
   if (!isTeamChecked()) {
     alert("부서를 선택해 주세요");
+  } else {
+    infoForm.submit();
   }
-  event.preventDefault();
 });
