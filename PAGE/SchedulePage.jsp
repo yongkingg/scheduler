@@ -92,8 +92,8 @@
     if (scheduleList.get(date) == null) {
       scheduleList.put(date, 1);
     } else {
-      int currentValue = scheduleList.get(date); // 현재 값 가져오기
-      scheduleList.put(date, currentValue + 1); // 값 수정 후 저장
+      // 기존 값 수정
+      scheduleList.put(date, scheduleList.get(date) + 1);
     }
   }
   out.println("<script>console.log('"+scheduleList+"')</script>");
