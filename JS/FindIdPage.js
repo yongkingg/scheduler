@@ -1,9 +1,12 @@
 var findIdBtn = document.getElementById("find_id_btn");
+var findIdForm = document.getElementById("find_id_form");
 findIdBtn.addEventListener("click", (event) => {
   var inputContact = document.getElementById("input_contact");
   if (!isValidate(validationRules[3].regex, inputContact)) {
     alert(validationRules[3].message);
     event.preventDefault();
+  } else {
+    findIdForm.submit();
   }
 });
 
