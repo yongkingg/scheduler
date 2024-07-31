@@ -34,17 +34,18 @@
   // ==================================================================================== //
 
   // ====================================로그인 계정, 직급 받기, 페이지 접근 권한 설정============================ //
-  String role = (String) session.getAttribute("role");
+  String role = "";
   String userIdx = (String) session.getAttribute("idx");
   boolean isLogined = false;
   if (userIdx == null) {
     response.sendRedirect("../PAGE/SchedulePage.jsp");
   } else {
     isLogined = true;
+    role = "1".equals((String) session.getAttribute("role")) ? "팀장" : "2".equals((String) session.getAttribute("role")) ? "팀원" : "";
   }
-  // ============================================================================================================ //
+  // ========================================================================================================================= //
 
-  // =====================================================페이지 정보 받기============================================== //
+  // =====================================================계정 정보 받기 정보 받기============================================== //
   Class.forName("org.mariadb.jdbc.Driver");
   Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
   String getUserInfoSql = "SELECT " +
@@ -71,6 +72,12 @@
     contact = getInfoResult.getString("contact");
     department = getInfoResult.getString("department");
   }
+  // =========================================================================================================================== //
+  String getMemberSql = "SELECT idx, name FROM account WHERE department=(SELECT idx FROM department WHERE group_name=?) AND role=2";
+  PreparedStatement getMemberQuery = connect.prepareStatement(getMemberSql);
+  getMemberQuery.setString(1, department);
+  ResultSet getMemberResult = getMemberQuery.executeQuery();
+
 %>
 
 <head>
@@ -95,10 +102,12 @@
     </div>
     <div class="member_box hide">
       <%
-        for (int index=0; index < 9; index++) {
+        if (role.equals("팀장")) {
+          while (getMemberResult.next()){
       %>
-      <a class="member" data-user-idx=<%=index%>>김용준</a>
+      <a class="member"  data-user-idx=<%=getMemberResult.getString("idx")%>><%=getMemberResult.getString("name")%></a>
       <%
+          }
         }
       %>
     </div>
@@ -177,6 +186,7 @@
     </section>
   </main>
   <script>
+    console.log("<%=department%>")
     let idx = null
     if (<%=isLogined%>) idx = "<%=userIdx%>"
   </script>
