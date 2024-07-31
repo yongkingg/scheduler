@@ -61,7 +61,7 @@ var logOutBtn = document.getElementById("log_out_btn");
 logOutBtn.addEventListener("click", () => {
   var result = confirm("로그아웃하시겠습니까?");
   if (result) {
-    location.href = "../index.jsp";
+    location.href = "../ACTION/LogOutAction.jsp";
   }
 });
 //========================================================================================//

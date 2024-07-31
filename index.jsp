@@ -14,7 +14,7 @@
   // 세션 존재 시 로그인 페이지 접근 제한
   String userIdx = (String) session.getAttribute("idx");
   if (userIdx != null) {
-    response.sendRedirect("../PAGE/SchedulePage.jsp")
+    response.sendRedirect("../PAGE/SchedulePage.jsp");
   } 
   // ====================================================
   request.setCharacterEncoding("utf-8");
@@ -33,7 +33,7 @@
 <body>
   <section class="bold_text">
     <h1 class="title">SCHEDULER</h1>
-    <form id="login_form" action="ACTION/LoginAction.jsp" method="post">
+    <form id="login_form" action="ACTION/LogInAction.jsp" method="post">
       <label for="input_id">
         <p>아이디</p>
         <input id="input_id" name="id" class="input_config" placeholder="아이디" ></input>

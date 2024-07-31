@@ -3,7 +3,6 @@
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
-<%@ page import="java.sql.ResultSet" %>
 <%@ page import="utils.Utils" %>
 <%@ page import="java.io.UnsupportedEncodingException" %>
 <%@ page import="java.net.URLEncoder" %>
@@ -23,7 +22,7 @@
     request.setCharacterEncoding("utf-8");
     Class.forName("org.mariadb.jdbc.Driver");
     Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
-    String sql = "SELECT FROM account WHERE id=? AND pw=?";
+    String sql = "SELECT * FROM account WHERE id=? AND pw=?";
     PreparedStatement query = connect.prepareStatement(sql);
     query.setString(1, idValue);
     query.setString(2, pwValue);
@@ -31,14 +30,13 @@
     if (result.next()) {
         int userIdx = result.getInt("idx");
         int role = result.getInt("role");
-        session.setAttribute("idx", userIdx);
-        session.setAttribute("role", role);
+        session.setAttribute("idx", String.valueOf(userIdx));
+        session.setAttribute("role", String.valueOf(role));
         response.sendRedirect("../PAGE/SchedulePage.jsp");
         return;
     } else {
         message = "존재하지 않는 계정입니다";
         session.setAttribute("message", message);
         response.sendRedirect("../index.jsp");
-        return;
     }
 %>

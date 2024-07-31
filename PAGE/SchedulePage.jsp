@@ -15,14 +15,14 @@
   if (month == null || month.trim().isEmpty()) {
     month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
   } else {
-    month = Utils.filterNumbers(month);  // Calling static method from Utils class
+    month = Utils.filterNumbers(month);
   }
 
   String year = request.getParameter("year");
   if (year == null || year.trim().isEmpty()) {
     year = String.valueOf(calendar.get(Calendar.YEAR));
   } else {
-    year = Utils.filterNumbers(year);  // Calling static method from Utils class
+    year = Utils.filterNumbers(year); 
   }
 
   calendar = new GregorianCalendar(Integer.parseInt(year), Integer.parseInt(month) - 1, 1);
