@@ -9,6 +9,7 @@
 <%@ page import="utils.Utils" %>
 
 <%
+  request.setCharacterEncoding("utf-8");
   // ==================================== 날짜구하기 ==================================== //
   Calendar calendar = new GregorianCalendar();
   String month = request.getParameter("month");
@@ -41,11 +42,35 @@
   } else {
     isLogined = true;
   }
-  // ==================================================================================== //
+  // ============================================================================================================ //
 
-  request.setCharacterEncoding("utf-8");
+  // =====================================================페이지 정보 받기============================================== //
   Class.forName("org.mariadb.jdbc.Driver");
   Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
+  String getUserInfoSql = "SELECT " +
+    "a.idx AS account_idx, " +
+    "a.id, " +
+    "a.name, " +
+    "a.contact, " +
+    "r.role_name AS role, " +
+    "d.group_name AS department " +
+    "FROM account a " +
+    "JOIN role r ON a.role = r.idx " +
+    "JOIN department d ON a.department = d.idx " +  
+    "WHERE a.idx = ?;";
+  PreparedStatement getUserInfoQuery = connect.prepareStatement(getUserInfoSql);
+  getUserInfoQuery.setString(1, userIdx);
+  ResultSet getInfoResult = getUserInfoQuery.executeQuery();
+  String id = "";
+  String name = "";
+  String contact = "";
+  String department = "";
+  if (getInfoResult.next()) {
+    id = getInfoResult.getString("id");
+    name = getInfoResult.getString("name");
+    contact = getInfoResult.getString("contact");
+    department = getInfoResult.getString("department");
+  }
 %>
 
 <head>
@@ -64,9 +89,9 @@
       <p>홈</p>
     </div>
     <div id="profile_box" class="bold_text hide">
-      <h1>yongkingg</h1>
-      <h1>디자인팀 홍길동</h1>
-      <h1>010-1111-1111</h1>
+      <h1><%=id%></h1>
+      <h1><%=department%> <%=name%></h1>
+      <h1><%=contact%></h1>
     </div>
     <div class="member_box hide">
       <%
