@@ -9,8 +9,8 @@
 <%@ page import="utils.Utils" %>
 
 <%
+  // ==================================== 날짜구하기 ==================================== //
   Calendar calendar = new GregorianCalendar();
-
   String month = request.getParameter("month");
   if (month == null || month.trim().isEmpty()) {
     month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
@@ -30,8 +30,18 @@
   int firstDay = calendar.get(Calendar.DAY_OF_WEEK);
   String[] daysOfWeek = {"", "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"};
   String firstDayOfWeekStr = daysOfWeek[firstDay];
-  // ================ //
+  // ==================================================================================== //
 
+  // ====================================로그인 계정, 직급 받기, 페이지 접근 권한 설정============================ //
+  String role = (String) session.getAttribute("role");
+  String userIdx = (String) session.getAttribute("idx");
+  boolean isLogined = false;
+  if (userIdx == null) {
+    response.sendRedirect("../index.jsp");
+  } else {
+    isLogined = true;
+  }
+  // ==================================================================================== //
 
   request.setCharacterEncoding("utf-8");
   Class.forName("org.mariadb.jdbc.Driver");
@@ -141,5 +151,10 @@
       </div>
     </section>
   </main>
+  <script>
+    let idx = null
+    if (<%=isLogined%>) idx = "<%=userIdx%>"
+    console.log("<%=userIdx%>")
+  </script>
   <script src="../JS/SchedulePage.js"></script>
 </body>

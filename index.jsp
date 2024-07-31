@@ -11,6 +11,12 @@
       session.removeAttribute("message");
   }
 
+  // 세션 존재 시 로그인 페이지 접근 제한
+  String userIdx = (String) session.getAttribute("idx");
+  if (userIdx != null) {
+    response.sendRedirect("../PAGE/SchedulePage.jsp")
+  } 
+  // ====================================================
   request.setCharacterEncoding("utf-8");
   Class.forName("org.mariadb.jdbc.Driver");
   Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
