@@ -3,16 +3,42 @@
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
+<%@ page import="utils.Utils" %>
 
 <%
-    String id = request.getParameter("id");
-    String pw = request.getParameter("pw");
     request.setCharacterEncoding("utf-8");
+    String idValue = request.getParameter("id");
+    String contactValue = request.getParameter("contact");
+    if (Utils.isNullOrEmpty(contactValue)) {
+        out.println("<script>");
+        out.println("alert('연락처를 다시 입력해 주세요');");
+        out.println("history.back();");
+        out.println("</script>");
+        return;
+    } else if (Utils.isNullOrEmpty(idValue)) {
+        out.println("<script>");
+        out.println("alert('아이디를 다시 입력해 주세요');");
+        out.println("history.back();");
+        out.println("</script>");
+        return;
+    }
+
     Class.forName("org.mariadb.jdbc.Driver");
     Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
+    String findPwSql = "SELECT pw FROM account WHERE id=? AND contact=?";
+    PreparedStatement findPwQuery = connect.prepareStatement(findPwSql);
+    findPwQuery.setString(1, idValue);
+    findPwQuery.setString(2, contactValue);
+    ResultSet pwResult = findPwQuery.executeQuery();
+    if (pwResult.next()) {
+        String pw = pwResult.getString("pw");
+        session.setAttribute("message", "당신의 비밀번호는 : " + pw);
+        response.sendRedirect("../index.jsp");
+        return;
+    } else {
+        out.println("<script>");
+        out.println("alert('존재하지 않는 계정입니다');");
+        out.println("history.back();");
+        out.println("</script>");
+    }
 %>
-
-<script>
-    location.href="../PAGE/FindPwPage.jsp"
-    alert("당신의 비밀번호는")
-</script>

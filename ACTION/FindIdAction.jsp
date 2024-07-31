@@ -25,7 +25,7 @@
     if (idResult.next()) {
         String id = idResult.getString("id");
         session.setAttribute("message", "당신의 아이디는 : " + id);
-        response.sendRedirect("../PAGE/FindIdPage.jsp");
+        response.sendRedirect("../index.jsp");
         return;
     } else {
         out.println("<script>");

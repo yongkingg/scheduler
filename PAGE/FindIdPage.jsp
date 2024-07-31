@@ -5,10 +5,18 @@
 <%@ page import="java.sql.ResultSet" %>
 
 <%
+  String userIdx = (String) session.getAttribute("idx");
+  if (userIdx != null) {
+    response.sendRedirect("../PAGE/SchedulePage.jsp");
+  }
+  
   String message = (String) session.getAttribute("message");
   if (message != null && !message.trim().isEmpty()) {
       out.println("<script>alert('" + message + "');</script>");
       session.removeAttribute("message");
+      // response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+      // response.setHeader("Pragma", "no-cache");
+      // response.setDateHeader("Expires", 0);
   }
   request.setCharacterEncoding("utf-8");
   Class.forName("org.mariadb.jdbc.Driver");
@@ -34,6 +42,7 @@
       <button class="action_btn_config" id="find_id_btn">아이디 찾기</button>
     </form>
   </section>
+  
   <script src="../JS/Global/regex.js"></script>
   <script src="../JS/FindIdPage.js"></script>
 
