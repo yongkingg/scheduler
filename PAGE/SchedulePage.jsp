@@ -7,6 +7,7 @@
 <%@ page import="java.util.GregorianCalendar" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="utils.Utils" %>
+<%@ page import="java.util.LinkedHashMap" %>
 
 <%
   request.setCharacterEncoding("utf-8");
@@ -76,7 +77,27 @@
   String getMemberSql = "SELECT idx, name FROM account WHERE department=(SELECT idx FROM department WHERE group_name=?) AND role=2";
   PreparedStatement getMemberQuery = connect.prepareStatement(getMemberSql);
   getMemberQuery.setString(1, department);
-  ResultSet getMemberResult = getMemberQuery.executeQuery();
+  ResultSet getMemberResult = getMemberQuery.executeQuery(); 
+
+
+  // =====================================================일정 가져오기========================================================== //
+  LinkedHashMap<String, Integer> scheduleList = new LinkedHashMap<>();
+  String getScheduleSql = "SELECT DAY(date) AS day FROM schedule WHERE MONTH(date) = ? AND YEAR(date) = ? ORDER BY date ASC;";
+  PreparedStatement getScheduleQuery = connect.prepareStatement(getScheduleSql);
+  getScheduleQuery.setString(1, month);
+  getScheduleQuery.setString(2, year);
+  ResultSet getScheduleResult = getScheduleQuery.executeQuery();
+  while (getScheduleResult.next()) {
+    String date = getScheduleResult.getString("day");
+    if (scheduleList.get(date) == null) {
+      scheduleList.put(date, 1);
+    } else {
+      int currentValue = scheduleList.get(date); // 현재 값 가져오기
+      scheduleList.put(date, currentValue + 1); // 값 수정 후 저장
+    }
+  }
+  out.println("<script>console.log('"+scheduleList+"')</script>");
+  // =========================================================================================================================== //
 
 %>
 
@@ -105,7 +126,7 @@
         if (role.equals("팀장")) {
           while (getMemberResult.next()){
       %>
-      <a class="member"  data-user-idx=<%=getMemberResult.getString("idx")%>><%=getMemberResult.getString("name")%></a>
+      <a class="member" data-user-idx=<%=getMemberResult.getString("idx")%>><%=getMemberResult.getString("name")%></a>
       <%
           }
         }
@@ -186,7 +207,6 @@
     </section>
   </main>
   <script>
-    console.log("<%=department%>")
     let idx = null
     if (<%=isLogined%>) idx = "<%=userIdx%>"
   </script>

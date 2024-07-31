@@ -14,7 +14,7 @@
         out.println("history.back();");
         out.println("</script>");
         return;
-    } 
+    }
 
     Class.forName("org.mariadb.jdbc.Driver");
     Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
