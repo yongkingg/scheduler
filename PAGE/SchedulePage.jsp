@@ -37,7 +37,7 @@
   String userIdx = (String) session.getAttribute("idx");
   boolean isLogined = false;
   if (userIdx == null) {
-    response.sendRedirect("../index.jsp");
+    response.sendRedirect("../PAGE/SchedulePage.jsp");
   } else {
     isLogined = true;
   }
@@ -154,7 +154,6 @@
   <script>
     let idx = null
     if (<%=isLogined%>) idx = "<%=userIdx%>"
-    console.log("<%=userIdx%>")
   </script>
   <script src="../JS/SchedulePage.js"></script>
 </body>

@@ -15,7 +15,7 @@
   String userIdx = (String) session.getAttribute("idx");
   if (userIdx != null) {
     response.sendRedirect("../PAGE/SchedulePage.jsp");
-  } 
+  }
   // ====================================================
   request.setCharacterEncoding("utf-8");
   Class.forName("org.mariadb.jdbc.Driver");
