@@ -165,12 +165,16 @@ if (inputScheduleBox) {
   inputScheduleBtn.addEventListener("click", () => {
     if (!isValidate(validationRules[4].regex, inputContent)) {
       alert(validationRules[4].message);
-    } else if (
-      !isValidTime(inputStartTime.value) ||
-      !isValidTime(inputEndTime.value) ||
-      !isValidTime(inputStartTime.value, inputEndTime.value)
-    ) {
-      alert("시간정보를 정확히 입력해 주세요");
+    } else if (inputStartTime.value == "") {
+      alert("시작시간을 입력해 주세요");
+    } else if (!isValidTime(inputStartTime.value)) {
+      alert("00:00~23:59까지 입력 가능합니다");
+    } else if (inputEndTime.value == "") {
+      alert("종료시각을 입력해 주세요");
+    } else if (!isValidTime(inputEndTime.value)) {
+      alert("00:00~23:59까지 입력 가능합니다");
+    } else if (!isValidTime(inputStartTime.value, inputEndTime.value)) {
+      alert("종료시각은 시작시간보다 이후로 설정해주세요");
     } else {
       location.href = "../ACTION/CreateScheduleAction.jsp";
     }
