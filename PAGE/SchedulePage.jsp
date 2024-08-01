@@ -14,14 +14,14 @@
   // ==================================== 날짜구하기 ==================================== //
   Calendar calendar = new GregorianCalendar();
   String month = request.getParameter("month");
-  if (month == null || month.trim().isEmpty()) {
+  if (month == null || Utils.isNullOrEmpty(month)) {
     month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
   } else {
     month = Utils.filterNumbers(month);
   }
 
   String year = request.getParameter("year");
-  if (year == null || year.trim().isEmpty()) {
+  if (year == null || Utils.isNullOrEmpty(year)) {
     year = String.valueOf(calendar.get(Calendar.YEAR));
   } else {
     year = Utils.filterNumbers(year);
@@ -36,11 +36,8 @@
 
   // ====================================로그인 계정, 직급 받기, 페이지 접근 권한 설정============================ //
   String role = "";
-
-  String userIdx = request.getParameter("idx");
+  String clickedMemberIdx = request.getParameter("idx"); // 팀장의 경우, 팀원의 일정 보기 클릭했을때, 해당 계정의 idx를 저장하기 위해 사용
   String logInIdx = (String) session.getAttribute("idx");
-  out.println("<script>console.log("+userIdx+")</script>");
-  out.println("<script>console.log("+logInIdx+")</script>");
   boolean isLogined = false;
   if (logInIdx == null) {
     // 세션 미존재 시 페이지 접근 제한
@@ -90,10 +87,10 @@
   PreparedStatement getScheduleQuery = connect.prepareStatement(getScheduleSql);
   getScheduleQuery.setString(1, month);
   getScheduleQuery.setString(2, year);
-  if (userIdx == null) {
+  if (clickedMemberIdx == null) {
     getScheduleQuery.setString(3, logInIdx);
-  } else if (userIdx != logInIdx) {
-    getScheduleQuery.setString(3, userIdx);
+  } else if (clickedMemberIdx != logInIdx) {
+    getScheduleQuery.setString(3, clickedMemberIdx);
   }
   ResultSet getScheduleResult = getScheduleQuery.executeQuery();
   while (getScheduleResult.next()) {
@@ -225,15 +222,17 @@
   </main>
   <script>
     let idx = null
+    let key = null
+    let clickedMemberIdx = "<%=clickedMemberIdx%>"
     if (<%=isLogined%>) {
-      if (idx != "<%=userIdx%>") {
-        idx = "<%=userIdx%>"
-      } else {
       idx = "<%=logInIdx%>"
-      }
+      key = 0
     }
-    
-    
+    // 팀장이 팀원 눌렀을때
+    if (clickedMemberIdx != "null" && idx != clickedMemberIdx) {
+        idx = "<%=clickedMemberIdx%>"
+        key = 1
+      } 
   </script>
   <script src="../JS/SchedulePage.js"></script>
 </body>

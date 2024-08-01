@@ -137,7 +137,8 @@ var gridItem = document.querySelectorAll(".grid_item");
 Array.from(gridItem).forEach((element) => {
   element.addEventListener("click", () => {
     location.href =
-      "../PAGE/SelectSchedulePage.jsp?key=0" +
+      "../PAGE/SelectSchedulePage.jsp?key=" +
+      key +
       "&year=" +
       year.innerText +
       "&month=" +

@@ -10,40 +10,38 @@
 
 <%
   request.setCharacterEncoding("utf-8");
+  Class.forName("org.mariadb.jdbc.Driver");
+  Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
 
   Calendar calendar = new GregorianCalendar();
   String key = request.getParameter("key");
-
   String day = Utils.filterNumbers(request.getParameter("day"));
   String month = Utils.filterNumbers(request.getParameter("month"));
   String year = Utils.filterNumbers(request.getParameter("year"));
   String date = year + "-" + month;
   String userIdx = request.getParameter("idx");
-  if (userIdx == null) {
-    userIdx = (String) session.getAttribute("idx");
-  } 
-  boolean isLogined = false;
-  if (userIdx == null) {
-    response.sendRedirect("../index.jsp");
-  } else {
-    isLogined = true;
+  String name = "";
+
+
+
+
+  // ================================================== 이름 가져오기 =======================================================
+  String getNameSql = "SELECT name FROM account WHERE idx=?";
+  PreparedStatement getNameQuery = connect.prepareStatement(getNameSql);
+  getNameQuery.setString(1,userIdx);
+  ResultSet getNameResult = getNameQuery.executeQuery();
+  if (getNameResult.next()) { 
+    name = getNameResult.getString("name");
   }
 
   // ================================================== 리스트 내용 가져오기 =======================================================
-  Class.forName("org.mariadb.jdbc.Driver");
-  Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
-  String getScheduleSql = "SELECT account.name, schedule.idx, schedule.start_time, schedule.end_time, schedule.content FROM schedule INNER JOIN account ON account.idx = schedule.writer WHERE YEAR(schedule.date) = ? AND MONTH(schedule.date) = ? AND schedule.writer = ? ORDER BY schedule.start_time ASC;";
+  String getScheduleSql = "SELECT idx, DATE_FORMAT(start_time, '%H:%i') AS start_time, DATE_FORMAT(end_time, '%H:%i') AS end_time, schedule.content FROM schedule WHERE YEAR(date) = ? AND MONTH(date) = ? AND DAY(date) = ? AND writer = ? ORDER BY start_time ASC;";
   PreparedStatement getScheduleQuery = connect.prepareStatement(getScheduleSql);
   getScheduleQuery.setInt(1, Integer.parseInt(year));
   getScheduleQuery.setInt(2, Integer.parseInt(month));
-  getScheduleQuery.setString(3, userIdx);
+  getScheduleQuery.setInt(3, Integer.parseInt(day));
+  getScheduleQuery.setString(4, userIdx);
   ResultSet getScheduleResult = getScheduleQuery.executeQuery();
-  String name = "";
-  while(getScheduleResult.next()) {
-    out.println("<script>console.log('123');</script>");
-    Integer scheduleIdx = getScheduleResult.getInt("idx");
-    name = getScheduleResult.getString("name");
-  }
 %>
 
 
@@ -77,13 +75,13 @@
 
   <main id="schedule_show_box">
   <%
-    for (int index = 0; index < 5; index++) {
+    while(getScheduleResult.next()) {
   %>
-    <div class="schedule bold_text" data-schedule-idx="<%=index%>">
+    <div class="schedule bold_text"  data-schedule-idx='<%=getScheduleResult.getString("idx")%>'>
       <div class="schedule_item_box">
-        <p>2024/08/31/</p><p class="edit_start_time_input">12:30</p>
+        <p><%=year%>/<%=month%>/<%=day%>/</p><p class="edit_start_time_input"><%=getScheduleResult.getString("start_time")%></p>
         <p> ~ </p>
-        <p>2024/08/31/</p><p class="edit_end_time_input">12:30</p>
+        <p><%=year%>/<%=month%>/<%=day%>/</p><p class="edit_end_time_input"><%=getScheduleResult.getString("end_time")%></p>
         <%
           if (key.equals("0")) {
         %>
@@ -93,18 +91,13 @@
           }
         %>
       </div>
-      <p class="schedule_content">스케줄스케줄스케줄스케줄스스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄스케줄케줄</p>
+      <p class="schedule_content"><%=getScheduleResult.getString("content")%></p>
     </div>
   <%
     }
   %>
     <div id="padding"></div>
   </main>
-    <script>
-    let idx = null
-    if (<%=isLogined%>) idx = "<%=userIdx%>"
-    console.log("<%=name%>")
-  </script>
   <script src="../JS/Global/regex.js"></script>
   <script src="../JS/SelectSchedulePage.js"></script>
   <script>

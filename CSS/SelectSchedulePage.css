@@ -122,6 +122,13 @@ body {
   margin-left: auto;
 }
 
+.edit_confirm_schedule {
+  background: inherit;
+  color: white;
+  border: none;
+  font-size: 16px;
+  margin-left: auto;
+}
 .delete_schedule {
   background: inherit;
   color: white;

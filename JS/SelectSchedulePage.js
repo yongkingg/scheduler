@@ -4,23 +4,24 @@ const [, year, month, day] = date.match(/(\d{4})년 (\d{1,2})월 (\d{1,2})일/);
 const submitButton = createSubmitButton();
 const cancelBtn = createCancelBtn();
 
+let clickedBtnIdx;
+
 var editButtons = document.querySelectorAll(".edit_schedule");
-Array.from(editButtons).forEach((element) => {
-  element.addEventListener("click", editEvent);
+Array.from(editButtons).forEach((element, index) => {
+  element.addEventListener("click", (event) => editEvent(event, index));
 });
 
 var deleteButtons = document.querySelectorAll(".delete_schedule");
-Array.from(deleteButtons).forEach((element) => {
-  element.addEventListener("click", deleteEvent);
+Array.from(deleteButtons).forEach((element, index) => {
+  element.addEventListener("click", (event) => deleteEvent(event, index));
 });
 
-function deleteEvent(event) {
-  var idx = event.target.closest(".schedule").dataset.scheduleIdx;
+function deleteEvent(event, index) {
   var deleteConfirm = confirm("일정을 삭제하시겠습니까?");
   if (deleteConfirm) {
     location.href =
       "../ACTION/DeleteScheduleAction.jsp?idx=" +
-      idx +
+      index +
       "&year=" +
       year +
       "&month=" +
@@ -30,9 +31,10 @@ function deleteEvent(event) {
   }
 }
 
-function editEvent(event) {
+function editEvent(event, index) {
   var schedule = event.target.closest(".schedule");
-  var scheduleIdx = schedule.dataset.scheduleIdx;
+  clickedBtnIdx = index;
+
   var contentTag = schedule.querySelector(".schedule_content");
   var startTime = schedule.querySelector(".edit_start_time_input");
   var endTime = schedule.querySelector(".edit_end_time_input");
@@ -51,7 +53,7 @@ function editEvent(event) {
 
   var itemBox = event.target.parentElement;
   itemBox.replaceChild(submitButton, event.target);
-  itemBox.replaceChild(cancelBtn, deleteButtons[scheduleIdx]);
+  itemBox.replaceChild(cancelBtn, deleteButtons[clickedBtnIdx]);
   itemBox.replaceChild(startTimeInputTag, startTime);
   itemBox.replaceChild(endTimeInputTag, endTime);
   schedule.replaceChild(contentInputTag, contentTag);
@@ -121,7 +123,6 @@ function cancelEvent(event) {
   var deleteConfirm = confirm("수정을 취소하시겠습니까?");
   if (deleteConfirm) {
     var schedule = event.target.closest(".schedule");
-    var scheduleIdx = schedule.dataset.scheduleIdx;
     var inputTag = schedule.querySelector(".edit_schedule_input");
     var contentTag = createPTag(
       inputTag.dataset.originalText,
@@ -138,25 +139,43 @@ function cancelEvent(event) {
 
     var itemBox = event.target.parentElement;
     schedule.replaceChild(contentTag, inputTag);
-    itemBox.replaceChild(editButtons[scheduleIdx], submitButton);
-    itemBox.replaceChild(deleteButtons[scheduleIdx], cancelBtn);
+    itemBox.replaceChild(editButtons[clickedBtnIdx], submitButton);
+    itemBox.replaceChild(deleteButtons[clickedBtnIdx], cancelBtn);
     itemBox.replaceChild(startTime, startTimeInputTag);
     itemBox.replaceChild(endTime, endTimeInputTag);
   }
 }
 // ==================================================일정 추가====================================================== //
-var inputContent = document.getElementById("input_content");
-var inputStartTime = document.getElementById("input_start");
-var inputEndTime = document.getElementById("input_end");
-var inputScheduleBtn = document.getElementById("input_schedule_btn");
 
-inputStartTime.addEventListener("input", () => {
-  inputStartTime.value = timeRegexForm(inputStartTime.value);
-});
+var inputScheduleBox = document.getElementById("input_schedule_box");
+if (inputScheduleBox) {
+  var inputContent = document.getElementById("input_content");
+  var inputStartTime = document.getElementById("input_start");
+  var inputEndTime = document.getElementById("input_end");
+  var inputScheduleBtn = document.getElementById("input_schedule_btn");
 
-inputEndTime.addEventListener("input", () => {
-  inputEndTime.value = timeRegexForm(inputEndTime.value);
-});
+  inputStartTime.addEventListener("input", () => {
+    inputStartTime.value = timeRegexForm(inputStartTime.value);
+  });
+
+  inputEndTime.addEventListener("input", () => {
+    inputEndTime.value = timeRegexForm(inputEndTime.value);
+  });
+
+  inputScheduleBtn.addEventListener("click", () => {
+    if (!isValidate(validationRules[4].regex, inputContent)) {
+      alert(validationRules[4].message);
+    } else if (
+      !isValidTime(inputStartTime.value) ||
+      !isValidTime(inputEndTime.value) ||
+      !isValidTime(inputStartTime.value, inputEndTime.value)
+    ) {
+      alert("시간정보를 정확히 입력해 주세요");
+    } else {
+      location.href = "../ACTION/CreateScheduleAction.jsp";
+    }
+  });
+}
 
 // inputStartTime.addEventListener("blur", () => {
 //   if (!isValidTime(inputStartTime.value)) {
@@ -171,19 +190,5 @@ inputEndTime.addEventListener("input", () => {
 //     alert("종료시간은 시작시간 이후여야 합니다.");
 //   }
 // });
-
-inputScheduleBtn.addEventListener("click", () => {
-  if (!isValidate(validationRules[4].regex, inputContent)) {
-    alert(validationRules[4].message);
-  } else if (
-    !isValidTime(inputStartTime.value) ||
-    !isValidTime(inputEndTime.value) ||
-    !isValidTime(inputStartTime.value, inputEndTime.value)
-  ) {
-    alert("시간정보를 정확히 입력해 주세요");
-  } else {
-    location.href = "../ACTION/CreateScheduleAction.jsp";
-  }
-});
 
 // ================================================================================================================ //
