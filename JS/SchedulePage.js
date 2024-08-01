@@ -27,6 +27,7 @@ asideBtn.addEventListener("click", () => {
     isOpened = false;
   }
 });
+
 // ======================================================================================= //
 
 // =========================================CALAENDER===================================== //
@@ -42,7 +43,9 @@ leftBtn.addEventListener("click", () => {
     "../PAGE/SchedulePage.jsp?year=" +
     (currentYear - 1) +
     "&month=" +
-    monthButton.innerText;
+    monthButton.innerText +
+    "&idx=" +
+    idx;
 });
 
 rightBtn.addEventListener("click", () => {
@@ -52,7 +55,9 @@ rightBtn.addEventListener("click", () => {
     "../PAGE/SchedulePage.jsp?year=" +
     (currentYear + 1) +
     "&month=" +
-    monthButton.innerText;
+    monthButton.innerText +
+    "&idx=" +
+    idx;
 });
 // ======================================================================================= //
 
@@ -102,7 +107,8 @@ Array.from(monthList).forEach((element) => {
   element.addEventListener("click", () => {
     monthButton.innerText = element.innerText + "월";
     monthSelector.classList.add("hide");
-    location.href = "../PAGE/SchedulePage.jsp?month=" + element.innerText;
+    location.href =
+      "../PAGE/SchedulePage.jsp?month=" + element.innerText + "&idx=" + idx;
   });
 });
 

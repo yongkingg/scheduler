@@ -36,7 +36,12 @@
 
   // ====================================로그인 계정, 직급 받기, 페이지 접근 권한 설정============================ //
   String role = "";
-  String userIdx = (String) session.getAttribute("idx");
+
+  String userIdx = request.getParameter("idx");
+  if (userIdx == null) {
+    userIdx = (String) session.getAttribute("idx");
+  }
+
   boolean isLogined = false;
   if (userIdx == null) {
     response.sendRedirect("../PAGE/SchedulePage.jsp");
@@ -96,9 +101,7 @@
       Integer currentCount = scheduleList.get(date);
       scheduleList.put((date), currentCount + 1);
     }
-    out.println("<script>console.log('"+date+"')</script>");
   }
-  out.println("<script>console.log('"+scheduleList+"')</script>");
 
   // =========================================================================================================================== //
 
@@ -126,10 +129,12 @@
     </div>
     <div class="member_box hide">
       <%
+        // 여기서, 해당 인원의 해당 달 스케줄은 보여지지만, 거기서 달이나 연도를 조작하면 내 일정 보기로 초기화됨. 로직 변경해야함.
         if (role.equals("팀장")) {
           while (getMemberResult.next()){
+            String memberIdx = getMemberResult.getString("idx");
       %>
-      <a class="member" data-user-idx=<%=getMemberResult.getString("idx")%>><%=getMemberResult.getString("name")%></a>
+        <a class="member" data-user-idx=<%=memberIdx%> href="../PAGE/SchedulePage.jsp?idx=<%=memberIdx%>&month=<%=month%>"><%=getMemberResult.getString("name")%></a>
       <%
           }
         }
