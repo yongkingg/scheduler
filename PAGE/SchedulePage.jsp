@@ -24,7 +24,7 @@
   if (year == null || year.trim().isEmpty()) {
     year = String.valueOf(calendar.get(Calendar.YEAR));
   } else {
-    year = Utils.filterNumbers(year); 
+    year = Utils.filterNumbers(year);
   }
 
   calendar = new GregorianCalendar(Integer.parseInt(year), Integer.parseInt(month) - 1, 1);
@@ -58,7 +58,7 @@
     "d.group_name AS department " +
     "FROM account a " +
     "JOIN role r ON a.role = r.idx " +
-    "JOIN department d ON a.department = d.idx " +  
+    "JOIN department d ON a.department = d.idx " +
     "WHERE a.idx = ?;";
   PreparedStatement getUserInfoQuery = connect.prepareStatement(getUserInfoSql);
   getUserInfoQuery.setString(1, userIdx);
@@ -77,26 +77,29 @@
   String getMemberSql = "SELECT idx, name FROM account WHERE department=(SELECT idx FROM department WHERE group_name=?) AND role=2";
   PreparedStatement getMemberQuery = connect.prepareStatement(getMemberSql);
   getMemberQuery.setString(1, department);
-  ResultSet getMemberResult = getMemberQuery.executeQuery(); 
+  ResultSet getMemberResult = getMemberQuery.executeQuery();
 
 
   // =====================================================일정 가져오기========================================================== //
-  LinkedHashMap<String, Integer> scheduleList = new LinkedHashMap<>();
-  String getScheduleSql = "SELECT DAY(date) AS day FROM schedule WHERE MONTH(date) = ? AND YEAR(date) = ? ORDER BY date ASC;";
+  LinkedHashMap<Integer, Integer> scheduleList = new LinkedHashMap<>();
+  String getScheduleSql = "SELECT DAY(date) AS day FROM schedule WHERE MONTH(date) = ? AND YEAR(date) = ? AND writer=? ORDER BY date ASC;";
   PreparedStatement getScheduleQuery = connect.prepareStatement(getScheduleSql);
   getScheduleQuery.setString(1, month);
   getScheduleQuery.setString(2, year);
+  getScheduleQuery.setString(3, userIdx);
   ResultSet getScheduleResult = getScheduleQuery.executeQuery();
   while (getScheduleResult.next()) {
-    String date = getScheduleResult.getString("day");
+    Integer date = getScheduleResult.getInt("day");
     if (scheduleList.get(date) == null) {
       scheduleList.put(date, 1);
     } else {
-      // 기존 값 수정
-      scheduleList.put(date, scheduleList.get(date) + 1);
+      Integer currentCount = scheduleList.get(date);
+      scheduleList.put((date), currentCount + 1);
     }
+    out.println("<script>console.log('"+date+"')</script>");
   }
   out.println("<script>console.log('"+scheduleList+"')</script>");
+
   // =========================================================================================================================== //
 
 %>
@@ -195,10 +198,17 @@
             if (column == 7) {
               isSpecialColumn += "saturday_column";
             }
+            Integer scheduleCount = scheduleList.get(index+1);
         %>
           <div class="grid_item" data-day=<%=index + 1%> style="grid-column: <%= column %>; grid-row: <%= row %>;">
             <a class="date <%=isSpecialColumn%>"><%= index + 1 %></a>
-            <a class="schedule_count">23</a>
+            <%
+              if (scheduleCount != null) {
+            %>
+                <a class="schedule_count"><%=scheduleCount%></a>
+            <%
+              }
+            %>
           </div>
         <%
           }
