@@ -158,19 +158,19 @@ inputEndTime.addEventListener("input", () => {
   inputEndTime.value = timeRegexForm(inputEndTime.value);
 });
 
-inputStartTime.addEventListener("blur", () => {
-  if (!isValidTime(inputStartTime.value)) {
-    alert("00:00~23:59까지 입력 가능합니다");
-  }
-});
+// inputStartTime.addEventListener("blur", () => {
+//   if (!isValidTime(inputStartTime.value)) {
+//     alert("00:00~23:59까지 입력 가능합니다");
+//   }
+// });
 
-inputEndTime.addEventListener("blur", () => {
-  if (!isValidTime(inputEndTime.value)) {
-    alert("00:00~23:59까지 입력 가능합니다");
-  } else if (!isValidTime(inputStartTime.value, inputEndTime.value)) {
-    alert("종료시간은 시작시간 이후여야 합니다.");
-  }
-});
+// inputEndTime.addEventListener("blur", () => {
+//   if (!isValidTime(inputEndTime.value)) {
+//     alert("00:00~23:59까지 입력 가능합니다");
+//   } else if (!isValidTime(inputStartTime.value, inputEndTime.value)) {
+//     alert("종료시간은 시작시간 이후여야 합니다.");
+//   }
+// });
 
 inputScheduleBtn.addEventListener("click", () => {
   if (!isValidate(validationRules[4].regex, inputContent)) {

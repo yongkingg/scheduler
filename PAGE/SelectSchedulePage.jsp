@@ -9,27 +9,41 @@
 <%@ page import="utils.Utils" %>
 
 <%
+  request.setCharacterEncoding("utf-8");
+
   Calendar calendar = new GregorianCalendar();
   String key = request.getParameter("key");
-  String day = request.getParameter("day");
 
-  String month = request.getParameter("month");
-  if (month == null || month.trim().isEmpty()) {
-    month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
+  String day = Utils.filterNumbers(request.getParameter("day"));
+  String month = Utils.filterNumbers(request.getParameter("month"));
+  String year = Utils.filterNumbers(request.getParameter("year"));
+  String date = year + "-" + month;
+  String userIdx = request.getParameter("idx");
+  if (userIdx == null) {
+    userIdx = (String) session.getAttribute("idx");
+  } 
+  boolean isLogined = false;
+  if (userIdx == null) {
+    response.sendRedirect("../index.jsp");
   } else {
-    month = Utils.filterNumbers(month);  
+    isLogined = true;
   }
 
-  String year = request.getParameter("year");
-  if (year == null || year.trim().isEmpty()) {
-    year = String.valueOf(calendar.get(Calendar.YEAR));
-  } else {
-    year = Utils.filterNumbers(year); 
-  }
-
-  request.setCharacterEncoding("utf-8");
+  // ================================================== 리스트 내용 가져오기 =======================================================
   Class.forName("org.mariadb.jdbc.Driver");
   Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
+  String getScheduleSql = "SELECT account.name, schedule.idx, schedule.start_time, schedule.end_time, schedule.content FROM schedule INNER JOIN account ON account.idx = schedule.writer WHERE YEAR(schedule.date) = ? AND MONTH(schedule.date) = ? AND schedule.writer = ? ORDER BY schedule.start_time ASC;";
+  PreparedStatement getScheduleQuery = connect.prepareStatement(getScheduleSql);
+  getScheduleQuery.setInt(1, Integer.parseInt(year));
+  getScheduleQuery.setInt(2, Integer.parseInt(month));
+  getScheduleQuery.setString(3, userIdx);
+  ResultSet getScheduleResult = getScheduleQuery.executeQuery();
+  String name = "";
+  while(getScheduleResult.next()) {
+    out.println("<script>console.log('123');</script>");
+    Integer scheduleIdx = getScheduleResult.getInt("idx");
+    name = getScheduleResult.getString("name");
+  }
 %>
 
 
@@ -43,19 +57,8 @@
 </head>
 <body>
   <section id="page_info_box" class="bold_text">
-    <%
-      if (key.equals("0")) {
-    %>
       <h1 id="date"><%= year %>년 <%= month %>월 <%= day%>일</h1>    
-      <h1 id="member">김용준님의 일정</h1>
-    <%
-      } else {
-    %>
-      <h1 id="date"><%= year %>년 <%= month %>월</h1>
-      <h1 id="member">김용준님의 일정</h1>
-    <%
-      }
-    %>
+      <h1 id="member"><%=name%>님의 일정</h1>
   </section>
   <%
     if (key.equals("0")) {
@@ -97,6 +100,11 @@
   %>
     <div id="padding"></div>
   </main>
+    <script>
+    let idx = null
+    if (<%=isLogined%>) idx = "<%=userIdx%>"
+    console.log("<%=name%>")
+  </script>
   <script src="../JS/Global/regex.js"></script>
   <script src="../JS/SelectSchedulePage.js"></script>
   <script>

@@ -108,7 +108,12 @@ Array.from(monthList).forEach((element) => {
     monthButton.innerText = element.innerText + "월";
     monthSelector.classList.add("hide");
     location.href =
-      "../PAGE/SchedulePage.jsp?month=" + element.innerText + "&idx=" + idx;
+      "../PAGE/SchedulePage.jsp?month=" +
+      element.innerText +
+      "&idx=" +
+      idx +
+      "&year=" +
+      year.innerText;
   });
 });
 
@@ -138,20 +143,9 @@ Array.from(gridItem).forEach((element) => {
       "&month=" +
       month.innerText +
       "&day=" +
-      element.dataset.day;
+      element.dataset.day +
+      "&idx=" +
+      idx;
   });
 });
 //===========================================================================================//
-
-// ======================================= aside member 버튼 클릭 ========================================== //
-var members = document.querySelectorAll(".member");
-Array.from(members).forEach((element) => {
-  element.addEventListener("click", () => {
-    location.href =
-      "../PAGE/SelectSchedulePage.jsp?key=1" +
-      "&year=" +
-      year.innerText +
-      "&month=" +
-      month.innerText;
-  });
-});

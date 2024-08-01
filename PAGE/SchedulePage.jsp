@@ -38,13 +38,13 @@
   String role = "";
 
   String userIdx = request.getParameter("idx");
-  if (userIdx == null) {
-    userIdx = (String) session.getAttribute("idx");
-  }
-
+  String logInIdx = (String) session.getAttribute("idx");
+  out.println("<script>console.log("+userIdx+")</script>");
+  out.println("<script>console.log("+logInIdx+")</script>");
   boolean isLogined = false;
-  if (userIdx == null) {
-    response.sendRedirect("../PAGE/SchedulePage.jsp");
+  if (logInIdx == null) {
+    // 세션 미존재 시 페이지 접근 제한
+    response.sendRedirect("../index.jsp");
   } else {
     isLogined = true;
     role = "1".equals((String) session.getAttribute("role")) ? "팀장" : "2".equals((String) session.getAttribute("role")) ? "팀원" : "";
@@ -66,7 +66,7 @@
     "JOIN department d ON a.department = d.idx " +
     "WHERE a.idx = ?;";
   PreparedStatement getUserInfoQuery = connect.prepareStatement(getUserInfoSql);
-  getUserInfoQuery.setString(1, userIdx);
+  getUserInfoQuery.setString(1, logInIdx);
   ResultSet getInfoResult = getUserInfoQuery.executeQuery();
   String id = "";
   String name = "";
@@ -78,12 +78,11 @@
     contact = getInfoResult.getString("contact");
     department = getInfoResult.getString("department");
   }
-  // =========================================================================================================================== //
+  // =================================================팀원 가져오기(팀장의 경우)============================================================= //
   String getMemberSql = "SELECT idx, name FROM account WHERE department=(SELECT idx FROM department WHERE group_name=?) AND role=2";
   PreparedStatement getMemberQuery = connect.prepareStatement(getMemberSql);
   getMemberQuery.setString(1, department);
   ResultSet getMemberResult = getMemberQuery.executeQuery();
-
 
   // =====================================================일정 가져오기========================================================== //
   LinkedHashMap<Integer, Integer> scheduleList = new LinkedHashMap<>();
@@ -91,7 +90,11 @@
   PreparedStatement getScheduleQuery = connect.prepareStatement(getScheduleSql);
   getScheduleQuery.setString(1, month);
   getScheduleQuery.setString(2, year);
-  getScheduleQuery.setString(3, userIdx);
+  if (userIdx == null) {
+    getScheduleQuery.setString(3, logInIdx);
+  } else if (userIdx != logInIdx) {
+    getScheduleQuery.setString(3, userIdx);
+  }
   ResultSet getScheduleResult = getScheduleQuery.executeQuery();
   while (getScheduleResult.next()) {
     Integer date = getScheduleResult.getInt("day");
@@ -129,12 +132,11 @@
     </div>
     <div class="member_box hide">
       <%
-        // 여기서, 해당 인원의 해당 달 스케줄은 보여지지만, 거기서 달이나 연도를 조작하면 내 일정 보기로 초기화됨. 로직 변경해야함.
         if (role.equals("팀장")) {
           while (getMemberResult.next()){
             String memberIdx = getMemberResult.getString("idx");
       %>
-        <a class="member" data-user-idx=<%=memberIdx%> href="../PAGE/SchedulePage.jsp?idx=<%=memberIdx%>&month=<%=month%>"><%=getMemberResult.getString("name")%></a>
+        <a class="member" data-user-idx=<%=memberIdx%> href="../PAGE/SchedulePage.jsp?idx=<%=memberIdx%>&month=<%=month%>&year=<%=year%>"><%=getMemberResult.getString("name")%></a>
       <%
           }
         }
@@ -206,11 +208,11 @@
             Integer scheduleCount = scheduleList.get(index+1);
         %>
           <div class="grid_item" data-day=<%=index + 1%> style="grid-column: <%= column %>; grid-row: <%= row %>;">
-            <a class="date <%=isSpecialColumn%>"><%= index + 1 %></a>
+            <p class="date <%=isSpecialColumn%>"><%= index + 1 %></p>
             <%
               if (scheduleCount != null) {
             %>
-                <a class="schedule_count"><%=scheduleCount%></a>
+                <p class="schedule_count"><%=scheduleCount%></p>
             <%
               }
             %>
@@ -223,7 +225,15 @@
   </main>
   <script>
     let idx = null
-    if (<%=isLogined%>) idx = "<%=userIdx%>"
+    if (<%=isLogined%>) {
+      if (idx != "<%=userIdx%>") {
+        idx = "<%=userIdx%>"
+      } else {
+      idx = "<%=logInIdx%>"
+      }
+    }
+    
+    
   </script>
   <script src="../JS/SchedulePage.js"></script>
 </body>
