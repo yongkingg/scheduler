@@ -18,19 +18,23 @@
   String day = Utils.filterNumbers(request.getParameter("day"));
   String month = Utils.filterNumbers(request.getParameter("month"));
   String year = Utils.filterNumbers(request.getParameter("year"));
-  String date = year + "-" + month;
   String userIdx = request.getParameter("idx");
   String name = "";
 
 
-
-
+  String logInIdx = (String) session.getAttribute("idx");
+  boolean isLogined = false;
+  if (logInIdx == null) {
+    response.sendRedirect("../index.jsp");
+  } else {
+    isLogined = true;
+  }
   // ================================================== 이름 가져오기 =======================================================
   String getNameSql = "SELECT name FROM account WHERE idx=?";
   PreparedStatement getNameQuery = connect.prepareStatement(getNameSql);
   getNameQuery.setString(1,userIdx);
   ResultSet getNameResult = getNameQuery.executeQuery();
-  if (getNameResult.next()) { 
+  if (getNameResult.next()) {
     name = getNameResult.getString("name");
   }
 
@@ -55,7 +59,7 @@
 </head>
 <body>
   <section id="page_info_box" class="bold_text">
-      <h1 id="date"><%= year %>년 <%= month %>월 <%= day%>일</h1>    
+      <h1 id="date"><%= year %>년 <%= month %>월 <%= day%>일</h1>
       <h1 id="member"><%=name%>님의 일정</h1>
   </section>
   <%
@@ -98,6 +102,10 @@
   %>
     <div id="padding"></div>
   </main>
+  <script>
+    let idx = null
+    if (<%=isLogined%>) {idx = "<%=logInIdx%>"}
+  </script>
   <script src="../JS/Global/regex.js"></script>
   <script src="../JS/SelectSchedulePage.js"></script>
   <script>

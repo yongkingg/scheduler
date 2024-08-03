@@ -146,7 +146,6 @@ function cancelEvent(event) {
   }
 }
 // ==================================================일정 추가====================================================== //
-
 var inputScheduleBox = document.getElementById("input_schedule_box");
 if (inputScheduleBox) {
   var inputContent = document.getElementById("input_content");
@@ -163,36 +162,54 @@ if (inputScheduleBox) {
   });
 
   inputScheduleBtn.addEventListener("click", () => {
-    if (!isValidate(validationRules[4].regex, inputContent)) {
-      alert(validationRules[4].message);
-    } else if (inputStartTime.value == "") {
-      alert("시작시간을 입력해 주세요");
-    } else if (!isValidTime(inputStartTime.value)) {
-      alert("00:00~23:59까지 입력 가능합니다");
-    } else if (inputEndTime.value == "") {
-      alert("종료시각을 입력해 주세요");
-    } else if (!isValidTime(inputEndTime.value)) {
-      alert("00:00~23:59까지 입력 가능합니다");
-    } else if (!isValidTime(inputStartTime.value, inputEndTime.value)) {
-      alert("종료시각은 시작시간보다 이후로 설정해주세요");
-    } else {
-      location.href = "../ACTION/CreateScheduleAction.jsp";
+    try {
+      validateContent();
+      validateTime(inputStartTime, "시작시간");
+      validateTime(inputStartTime, "종료시간");
+      validateTimeRelationship();
+      location.href =
+        "../ACTION/CreateScheduleAction.jsp?content=" +
+        inputContent.value +
+        "&start_time=" +
+        inputStartTime.value +
+        "&end_time=" +
+        inputEndTime.value +
+        "&writer=" +
+        idx +
+        "&year=" +
+        year +
+        "&month=" +
+        month +
+        "&day=" +
+        day;
+    } catch (error) {
+      alert(error.message);
     }
   });
+
+  function validateContent() {
+    if (!isValidate(validationRules[4].regex, inputContent)) {
+      throw new Error(validationRules[4].message);
+    }
+  }
+
+  function validateTime(inputTime, key) {
+    if (inputTime.value == "") {
+      throw new Error(key + "을 입력해 주세요");
+    }
+    if (!isValidTime(inputTime.value)) {
+      throw new Error("00:00~23:59까지 입력 가능합니다");
+    }
+  }
+
+  function validateTimeRelationship() {
+    if (!isValidTime(inputStartTime.value, inputEndTime.value)) {
+      throw new Error("종료시각은 시작시간보다 이후로 설정해주세요");
+    }
+  }
 }
-
-// inputStartTime.addEventListener("blur", () => {
-//   if (!isValidTime(inputStartTime.value)) {
-//     alert("00:00~23:59까지 입력 가능합니다");
-//   }
-// });
-
-// inputEndTime.addEventListener("blur", () => {
-//   if (!isValidTime(inputEndTime.value)) {
-//     alert("00:00~23:59까지 입력 가능합니다");
-//   } else if (!isValidTime(inputStartTime.value, inputEndTime.value)) {
-//     alert("종료시간은 시작시간 이후여야 합니다.");
-//   }
-// });
-
 // ================================================================================================================ //
+window.addEventListener("popstate", (event) => {
+  console.log("123");
+});
+history.pushState(null, "", location.href);
