@@ -71,19 +71,21 @@ function submitEvent(event) {
   var submitConfirm = confirm("일정을 수정하시겠습니까?");
   if (submitConfirm) {
     var schedule = event.target.closest(".schedule");
-    var idx = schedule.dataset.scheduleIdx;
-    var inputTag = schedule.querySelector(".edit_schedule_input");
+    var scheduleIdx = schedule.dataset.scheduleIdx;
+    var content = schedule.querySelector(".edit_schedule_input");
+    var startTime = schedule.querySelector(".edit_start_time_input");
+    var endTime = schedule.querySelector(".edit_end_time_input");
     location.href =
-      "../ACTION/UpdateScheduleAction.jsp?idx=" +
+      "../ACTION/UpdateScheduleAction.jsp?schedule_idx=" +
+      scheduleIdx +
+      "&writer=" +
       idx +
-      "&year=" +
-      year +
-      "&month=" +
-      month +
-      "&day=" +
-      day +
+      "&start_time=" +
+      startTime.value +
+      "&end_time=" +
+      endTime.value +
       "&content=" +
-      inputTag.value;
+      content.value;
   }
 }
 
@@ -209,6 +211,8 @@ if (inputScheduleBox) {
   }
 }
 // ================================================================================================================ //
+
+// 뒤로가기 기능 추가해야함
 window.addEventListener("popstate", (event) => {
   console.log("123");
 });

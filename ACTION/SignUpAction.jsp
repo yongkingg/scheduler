@@ -48,7 +48,7 @@
         signUpQuery.setString(5, groupValue);
         signUpQuery.executeUpdate();
         session.setAttribute("message", "회원가입이 완료되었습니다");
-        response.sendRedirect("../index.jsp");    
+        response.sendRedirect("../index.jsp");
     } catch (SQLException e) {
         errorMessage = e.getMessage();
         String regex = "for key '(.*?)'";
