@@ -18,16 +18,20 @@ Array.from(deleteButtons).forEach((element, index) => {
 
 function deleteEvent(event, index) {
   var deleteConfirm = confirm("일정을 삭제하시겠습니까?");
+  var scheduleIdx =
+    event.target.parentElement.parentElement.dataset.scheduleIdx;
   if (deleteConfirm) {
     location.href =
-      "../ACTION/DeleteScheduleAction.jsp?idx=" +
-      index +
+      "../ACTION/DeleteScheduleAction.jsp?schedule_idx=" +
+      scheduleIdx +
       "&year=" +
       year +
       "&month=" +
       month +
       "&day=" +
-      day;
+      day +
+      "&idx=" +
+      idx;
   }
 }
 
