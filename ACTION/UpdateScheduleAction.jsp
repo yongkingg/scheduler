@@ -10,6 +10,9 @@
     request.setCharacterEncoding("utf-8");
     String scheduleIdx = request.getParameter("schedule_idx");
     String content = request.getParameter("content");
+    String year = request.getParameter("year");
+    String month = request.getParameter("month");
+    String day = request.getParameter("day");
     String startTime = request.getParameter("start_time");
     String endTime = request.getParameter("end_time");
     String writerIdx = request.getParameter("writer");
@@ -32,22 +35,21 @@
         out.println("</script>");
         return;
     }
-
-    Class.forName("org.mariadb.jdbc.Driver");
-    Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
-    String updateScheduleSql = "UPDATE schedule SET start_time=?, end_time=?, content=? WHERE idx=?";
-    PreparedStatement updateScheduleQuery = connect.prepareStatement(updateScheduleSql);
-    updateScheduleQuery.setString(1, startTime);
-    updateScheduleQuery.setString(2, endTime);
-    updateScheduleQuery.setString(3, content);
-    updateScheduleQuery.setString(4, scheduleIdx);
-    updateScheduleQuery.executeUpdate();
+    
+    try {
+        Class.forName("org.mariadb.jdbc.Driver");
+        Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
+        String updateScheduleSql = "UPDATE schedule SET start_time=?, end_time=?, content=? WHERE idx=?";
+        PreparedStatement updateScheduleQuery = connect.prepareStatement(updateScheduleSql);
+        updateScheduleQuery.setString(1, startTime);
+        updateScheduleQuery.setString(2, endTime);
+        updateScheduleQuery.setString(3, content);
+        updateScheduleQuery.setString(4, scheduleIdx);
+        updateScheduleQuery.executeUpdate();
+        out.println("<script>alert('일정 수정이 완료되었습니다');</script>");
+    } catch (Exception e) {
+        out.println("<script>alert('일정을 수정할 수 없습니다. 잠시 후에 다시 시도해주세요');</script>");
+    } finally {
+        out.println("<script>location.href='../PAGE/SelectSchedulePage.jsp?key=0&idx=" + writerIdx + "&year=" + year + "&month=" + month + "&day=" + day + "';</script>");
+    }
 %>
-
-<script>
-    console.log("<%=content%>")
-    console.log("<%=startTime%>")
-    console.log("<%=endTime%>")
-    console.log("<%=scheduleIdx%>")
-    console.log("<%=writerIdx%>")
-</script>

@@ -5,5 +5,9 @@
 
 <%
     session.invalidate();
-    response.sendRedirect("../index.jsp");
 %>
+
+<script>
+    location.href="../index.jsp"
+    alert("성공적으로 로그아웃되었습니다")
+</script>

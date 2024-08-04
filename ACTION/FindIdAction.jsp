@@ -15,16 +15,21 @@
         out.println("</script>");
         return;
     }
-
-    Class.forName("org.mariadb.jdbc.Driver");
-    Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
-    String findIdSql = "SELECT id FROM account WHERE contact=?";
-    PreparedStatement findIdQuery = connect.prepareStatement(findIdSql);
-    findIdQuery.setString(1, contactValue);
-    ResultSet idResult = findIdQuery.executeQuery();
-    if (idResult.next()) {
+    
+    ResultSet idResult = null;
+    try {
+        Class.forName("org.mariadb.jdbc.Driver");
+        Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
+        String findIdSql = "SELECT id FROM account WHERE contact=?";
+        PreparedStatement findIdQuery = connect.prepareStatement(findIdSql);
+        findIdQuery.setString(1, contactValue);
+        idResult = findIdQuery.executeQuery();
+    } catch (Exception e) {
+        out.println("<script>alert('아이디를 찾을 수 없습니다. 잠시 후에 다시 시도해주세요')</script>");
+    } finally {
+        if (idResult.next()) {
         String id = idResult.getString("id");
-        session.setAttribute("message", "당신의 아이디는 : " + id);
+        session.setAttribute("message", "당신의 아이디는 " + id + " 입니다");
         response.sendRedirect("../index.jsp");
         return;
     } else {
@@ -32,5 +37,6 @@
         out.println("alert('존재하지 않는 계정입니다');");
         out.println("history.back();");
         out.println("</script>");
+    }
     }
 %>

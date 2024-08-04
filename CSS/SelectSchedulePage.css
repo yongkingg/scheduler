@@ -140,6 +140,7 @@ body {
   font-size: 36px;
   padding-top: 8px;
   color: white;
+  overflow-wrap: break-word;
 }
 
 .edit_schedule_input {

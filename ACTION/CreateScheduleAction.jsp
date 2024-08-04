@@ -36,18 +36,23 @@
         return;
     }
 
-    Class.forName("org.mariadb.jdbc.Driver");
-    Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
-    String createScheduleSql = "INSERT INTO schedule (writer, date, start_time, end_time, content) VALUES (?, ?, ?, ?, ?)";
-    PreparedStatement createScheduleQuery = connect.prepareStatement(createScheduleSql);
-    createScheduleQuery.setString(1, writerIdx);
-    createScheduleQuery.setString(2, date);
-    createScheduleQuery.setString(3, startTime);
-    createScheduleQuery.setString(4, endTime);
-    createScheduleQuery.setString(5, content);
-    createScheduleQuery.executeUpdate();
+    try {
+        Class.forName("org.mariadb.jdbc.Driver");
+        Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
+        String createScheduleSql = "INSERT INTO schedule (writer, date, start_time, end_time, content) VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement createScheduleQuery = connect.prepareStatement(createScheduleSql);
+        createScheduleQuery.setString(1, writerIdx);
+        createScheduleQuery.setString(2, date);
+        createScheduleQuery.setString(3, startTime);
+        createScheduleQuery.setString(4, endTime);
+        createScheduleQuery.setString(5, content);
+        createScheduleQuery.executeUpdate();
+    } catch (Exception e) {
+        out.println("<script>alert('일정을 추가할 수 없습니다. 잠시 뒤에 시도해주세요')</scirpt>");
+    }
 %>
 
 <script>
     location.href="../PAGE/SelectSchedulePage.jsp?key=0&day=" + "<%=day%>" + "&year=" + "<%=year%>" + "&month=" + "<%=month%>" +"&idx=" + "<%=writerIdx%>"
+    alert("일정 입력이 완료되었습니다")
 </script>

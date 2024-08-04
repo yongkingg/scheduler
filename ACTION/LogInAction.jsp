@@ -19,24 +19,30 @@
         return;
     }
 
-    request.setCharacterEncoding("utf-8");
-    Class.forName("org.mariadb.jdbc.Driver");
-    Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
-    String sql = "SELECT * FROM account WHERE id=? AND pw=?";
-    PreparedStatement query = connect.prepareStatement(sql);
-    query.setString(1, idValue);
-    query.setString(2, pwValue);
-    ResultSet result = query.executeQuery();
-    if (result.next()) {
-        int userIdx = result.getInt("idx");
-        int role = result.getInt("role");
+    ResultSet loginResult = null;
+    try {
+        request.setCharacterEncoding("utf-8");
+        Class.forName("org.mariadb.jdbc.Driver");
+        Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
+        String loginSql = "SELECT * FROM account WHERE id=? AND pw=?";
+        PreparedStatement loginQuery = connect.prepareStatement(loginSql);
+        loginQuery.setString(1, idValue);
+        loginQuery.setString(2, pwValue);
+        loginResult = loginQuery.executeQuery();
+    } catch (Exception e) {
+        out.println("<script>alert('로그인할 수 없습니다. 잠시 후에 다시 시도해주세요')</script>");
+    } finally {
+        if (loginResult.next()) {
+        int userIdx = loginResult.getInt("idx");
+        int role = loginResult.getInt("role");
         session.setAttribute("idx", String.valueOf(userIdx));
         session.setAttribute("role", String.valueOf(role));
         response.sendRedirect("../PAGE/SchedulePage.jsp");
         return;
-    } else {
-        message = "존재하지 않는 계정입니다";
-        session.setAttribute("message", message);
-        response.sendRedirect("../index.jsp");
-    }
+        } else {
+            message = "존재하지 않는 계정입니다";
+            session.setAttribute("message", message);
+            response.sendRedirect("../index.jsp");
+        }
+    }   
 %>

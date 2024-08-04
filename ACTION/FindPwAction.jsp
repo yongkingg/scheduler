@@ -22,15 +22,20 @@
         out.println("</script>");
         return;
     }
-
-    Class.forName("org.mariadb.jdbc.Driver");
-    Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
-    String findPwSql = "SELECT pw FROM account WHERE id=? AND contact=?";
-    PreparedStatement findPwQuery = connect.prepareStatement(findPwSql);
-    findPwQuery.setString(1, idValue);
-    findPwQuery.setString(2, contactValue);
-    ResultSet pwResult = findPwQuery.executeQuery();
-    if (pwResult.next()) {
+    
+    ResultSet pwResult = null;
+    try {
+        Class.forName("org.mariadb.jdbc.Driver");
+        Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
+        String findPwSql = "SELECT pw FROM account WHERE id=? AND contact=?";
+        PreparedStatement findPwQuery = connect.prepareStatement(findPwSql);
+        findPwQuery.setString(1, idValue);
+        findPwQuery.setString(2, contactValue);
+        pwResult = findPwQuery.executeQuery();
+    } catch (Exception e) {
+        out.println("<script>alert('비밀번호를 찾을 수 없습니다. 잠시 후에 다시 시도해주세요')</script>")
+    } finally {
+        if (pwResult.next()) {
         String pw = pwResult.getString("pw");
         session.setAttribute("message", "당신의 비밀번호는 : " + pw);
         response.sendRedirect("../index.jsp");
@@ -40,5 +45,6 @@
         out.println("alert('존재하지 않는 계정입니다');");
         out.println("history.back();");
         out.println("</script>");
+    }
     }
 %>

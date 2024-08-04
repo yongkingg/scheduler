@@ -14,14 +14,14 @@
   // ==================================== 날짜구하기 ==================================== //
   Calendar calendar = new GregorianCalendar();
   String month = request.getParameter("month");
-  if (month == null || Utils.isNullOrEmpty(month)) {
+  if (Utils.isNullOrEmpty(month)) {
     month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
   } else {
     month = Utils.filterNumbers(month);
   }
 
   String year = request.getParameter("year");
-  if (year == null || Utils.isNullOrEmpty(year)) {
+  if (Utils.isNullOrEmpty(year)) {
     year = String.valueOf(calendar.get(Calendar.YEAR));
   } else {
     year = Utils.filterNumbers(year);
@@ -76,11 +76,14 @@
     department = getInfoResult.getString("department");
   }
   // =================================================팀원 가져오기(팀장의 경우)============================================================= //
-  String getMemberSql = "SELECT idx, name FROM account WHERE department=(SELECT idx FROM department WHERE group_name=?) AND role=2";
-  PreparedStatement getMemberQuery = connect.prepareStatement(getMemberSql);
-  getMemberQuery.setString(1, department);
-  ResultSet getMemberResult = getMemberQuery.executeQuery();
-
+  ResultSet getMemberResult = null;
+  if (role.equals("팀장")) {
+    String getMemberSql = "SELECT idx, name FROM account WHERE department=(SELECT idx FROM department WHERE group_name=?) AND role=2";
+    PreparedStatement getMemberQuery = connect.prepareStatement(getMemberSql);
+    getMemberQuery.setString(1, department);
+    getMemberResult = getMemberQuery.executeQuery();
+  }
+  
   // =====================================================일정 가져오기========================================================== //
   LinkedHashMap<Integer, Integer> scheduleList = new LinkedHashMap<>();
   String getScheduleSql = "SELECT DAY(date) AS day FROM schedule WHERE MONTH(date) = ? AND YEAR(date) = ? AND writer=? ORDER BY date ASC;";
@@ -102,9 +105,7 @@
       scheduleList.put((date), currentCount + 1);
     }
   }
-
   // =========================================================================================================================== //
-
 %>
 
 <head>
@@ -144,7 +145,6 @@
       <button id="log_out_btn">로그아웃</button>
     </div>
   </aside>
-
   <main>
     <section id="date_box">
       <button id="left_btn" class="svg_background"></button>

@@ -20,6 +20,7 @@
         out.println("</script>");
         return;
     }
+    
     try {
         Class.forName("org.mariadb.jdbc.Driver");       
         Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
@@ -28,7 +29,7 @@
         deleteScheduleQuery.setString(1, scheduleIdx);
         deleteScheduleQuery.executeUpdate();
     } catch(Exception e) {
-        out.println("<script>console.log("+e+")</script>");
+        out.println("<script>alert('일정을 삭제할 수 없습니다. 잠시 뒤에 시도해주세요')</scirpt>");
     }
     
 %>

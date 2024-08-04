@@ -84,6 +84,12 @@ function submitEvent(event) {
       scheduleIdx +
       "&writer=" +
       idx +
+      "&year=" +
+      year +
+      "&month=" +
+      month +
+      "&day=" +
+      day +
       "&start_time=" +
       startTime.value +
       "&end_time=" +
@@ -221,5 +227,3 @@ window.addEventListener("popstate", () => {
   window.location.href =
     "../PAGE/SchedulePage.jsp?idx=" + idx + "&year=" + year + "&month=" + month;
 });
-
-// action에서 history 제거

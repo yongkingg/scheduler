@@ -3,24 +3,20 @@
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
-<%@ page import="java.util.Calendar" %>
-<%@ page import="java.util.GregorianCalendar" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="utils.Utils" %>
 
 <%
   request.setCharacterEncoding("utf-8");
+
   Class.forName("org.mariadb.jdbc.Driver");
   Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
-
-  Calendar calendar = new GregorianCalendar();
   String key = request.getParameter("key");
   String day = Utils.filterNumbers(request.getParameter("day"));
   String month = Utils.filterNumbers(request.getParameter("month"));
   String year = Utils.filterNumbers(request.getParameter("year"));
   String userIdx = request.getParameter("idx");
   String name = "";
-
 
   String logInIdx = (String) session.getAttribute("idx");
   boolean isLogined = false;
