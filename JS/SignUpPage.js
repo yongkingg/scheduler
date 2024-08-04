@@ -16,9 +16,9 @@ var signUpBtn = document.getElementById("sign_up_btn");
 signUpBtn.addEventListener("click", (event) => {
   event.preventDefault();
   const inputs = [inputId, inputPw, inputName, inputContact];
-  for (let i = 0; i < inputs.length; i++) {
-    if (!validationRules[i].regex.test(inputs[i].value)) {
-      alert(validationRules[i].message);
+  for (var index = 0; index < inputs.length; index++) {
+    if (!validationRules[index].regex.test(inputs[index].value)) {
+      alert(validationRules[index].message);
       return;
     } else if (inputPw.value !== inputCheckPw.value) {
       alert("비밀번호가 일치하지 않습니다.");

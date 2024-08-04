@@ -22,6 +22,10 @@ section p {
   margin-top: 8px;
 }
 
+section button {
+  margin-top: 8px;
+}
+
 .group_box div {
   display: flex;
   flex-direction: row;

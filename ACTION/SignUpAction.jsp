@@ -54,7 +54,7 @@
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(errorMessage);
         if (matcher.find()) {
-            errorMessage = matcher.group(1) + "중복 사용입니다";
+            errorMessage = "사용할 수 없는 " + matcher.group(1) + "입니다";
             out.println("<script>history.back()</script>");
             out.println("<script>alert('" + errorMessage + "');</script>");
             return;
