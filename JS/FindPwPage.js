@@ -6,7 +6,7 @@ findPwBtn.addEventListener("click", (event) => {
   if (!inputId.value) {
     alert("아이디를 입력해 주세요");
     event.preventDefault();
-  } else if (!isValidate(validationRules[3].regex, inputContact)) {
+  } else if (!validationRules[3].regex.test(inputContact)) {
     alert(validationRules[3].message);
     event.preventDefault();
   }

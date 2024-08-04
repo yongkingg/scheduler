@@ -28,10 +28,6 @@ const validationRules = [
   },
 ];
 
-function isValidate(regex, element) {
-  return regex.test(element.value);
-}
-
 function timeRegexForm(value) {
   return value
     .replace(/[^0-9]/g, "")
@@ -39,30 +35,28 @@ function timeRegexForm(value) {
     .replace(/(\:{1,2})$/g, "");
 }
 
-function isValidTime(startTime, endTime) {
-  // 단독으로 전달된 startTime 검사
-  if (startTime && !endTime) {
-    return timeRegex.test(startTime);
+function isValidateContent(content) {
+  if (!validationRules[4].regex.test(content)) {
+    throw new Error(validationRules[4].message);
   }
+}
 
-  // 단독으로 전달된 endTime 검사
-  if (endTime && !startTime) {
-    return timeRegex.test(endTime);
+function isValidateTime(inputTime, key) {
+  if (inputTime == "") {
+    throw new Error(key + "을 입력해 주세요");
   }
-
-  // 두 값이 모두 전달된 경우
-  if (startTime && endTime) {
-    if (!timeRegex.test(startTime) || !timeRegex.test(endTime)) {
-      return false;
-    }
-
-    const startNumeric = parseInt(startTime.replace(/[^0-9]/g, ""), 10);
-    const endNumeric = parseInt(endTime.replace(/[^0-9]/g, ""), 10);
-    return startNumeric < endNumeric;
+  if (!timeRegex.test(inputTime)) {
+    throw new Error("시간은 00:00~23:59까지 입력 가능합니다");
   }
+}
 
-  // 두 값이 모두 전달되지 않은 경우
-  return false;
+function isValidateTimeRelationship(startTime, endTime) {
+  if (
+    parseInt(startTime.replace(/[^0-9]/g, ""), 10) >
+    parseInt(endTime.replace(/[^0-9]/g, ""), 10)
+  ) {
+    throw new Error("종료시각은 시작시간 이후로 설정해주세요");
+  }
 }
 
 function isValuesChanged(values) {

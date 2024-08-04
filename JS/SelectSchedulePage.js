@@ -1,18 +1,17 @@
+// ======================================== 전역변수 선언 ==============================================
 const date = document.getElementById("date").innerText;
 const [, year, month, day] = date.match(/(\d{4})년 (\d{1,2})월 (\d{1,2})일/);
-
-// let submitButton = createSubmitButton();
 let submitBtns = [];
-// let cancelBtn = createCancelBtn();
 let cancelBtns = [];
 var editButtons = document.querySelectorAll(".edit_schedule");
 var deleteButtons = document.querySelectorAll(".delete_schedule");
+// =========================================================================================================
 
 // ==================================== 지난 일정 회색 처리 ============================================
 var schedules = document.querySelectorAll(".schedule");
 Array.from(schedules).forEach((element) => {
   var endTime = element.querySelector(".edit_end_time_input").innerText;
-  if (!isValidTime(currentTime, endTime)) {
+  if (currentTime > endTime) {
     var endScheduleContent = element.querySelector(".schedule_content");
     element.classList.add("end_schedule_background");
     endScheduleContent.classList.add("end_schedule_content");
@@ -71,19 +70,19 @@ Array.from(editButtons).forEach((element, index) => {
   element.addEventListener("click", (event) => editEvent(event, index));
 });
 
-Array.from(deleteButtons).forEach((element, index) => {
-  element.addEventListener("click", (event) => deleteEvent(event, index));
+Array.from(deleteButtons).forEach((element) => {
+  element.addEventListener("click", (event) => deleteEvent(event));
 });
 
-Array.from(submitBtns).forEach((element, index) => {
-  element.addEventListener("click", (event) => submitEvent(event, index));
+Array.from(submitBtns).forEach((element) => {
+  element.addEventListener("click", (event) => submitEvent(event));
 });
 
 Array.from(cancelBtns).forEach((element, index) => {
   element.addEventListener("click", (event) => cancelEvent(event, index));
 });
 
-function deleteEvent(event, index) {
+function deleteEvent(event) {
   var deleteConfirm = confirm("일정을 삭제하시겠습니까?");
   var scheduleIdx =
     event.target.parentElement.parentElement.dataset.scheduleIdx;
@@ -129,7 +128,7 @@ function editEvent(event, index) {
   schedule.replaceChild(contentInputTag, contentTag);
 }
 
-function submitEvent(event, index) {
+function submitEvent(event) {
   var submitConfirm = confirm("일정을 수정하시겠습니까?");
   if (submitConfirm) {
     var schedule = event.target.closest(".schedule");
@@ -146,23 +145,33 @@ function submitEvent(event, index) {
       );
       return;
     }
-    location.href =
-      "../ACTION/UpdateScheduleAction.jsp?schedule_idx=" +
-      scheduleIdx +
-      "&writer=" +
-      idx +
-      "&year=" +
-      year +
-      "&month=" +
-      month +
-      "&day=" +
-      day +
-      "&start_time=" +
-      startTime.value +
-      "&end_time=" +
-      endTime.value +
-      "&content=" +
-      content.value;
+
+    // 입력값 유효성 검사 및 수정 진행
+    try {
+      isValidateContent(content.value);
+      isValidateTime(startTime.value, "시작시간");
+      isValidateTime(endTime.value, "종료시간");
+      isValidateTimeRelationship(startTime.value, endTime.value);
+      location.href =
+        "../ACTION/UpdateScheduleAction.jsp?schedule_idx=" +
+        scheduleIdx +
+        "&writer=" +
+        idx +
+        "&year=" +
+        year +
+        "&month=" +
+        month +
+        "&day=" +
+        day +
+        "&start_time=" +
+        startTime.value +
+        "&end_time=" +
+        endTime.value +
+        "&content=" +
+        content.value;
+    } catch (error) {
+      alert(error.message);
+    }
   }
 }
 
@@ -197,32 +206,33 @@ function cancelEvent(event, index) {
 // ==============================================일정 추가 영역 이벤트=============================================== //
 var inputScheduleBox = document.getElementById("input_schedule_box");
 if (inputScheduleBox) {
-  var inputContent = document.getElementById("input_content");
-  var inputStartTime = document.getElementById("input_start");
-  var inputEndTime = document.getElementById("input_end");
+  var content = document.getElementById("input_content");
+  var startTime = document.getElementById("input_start");
+  var endTime = document.getElementById("input_end");
   var inputScheduleBtn = document.getElementById("input_schedule_btn");
 
-  inputStartTime.addEventListener("input", () => {
-    inputStartTime.value = timeRegexForm(inputStartTime.value);
+  startTime.addEventListener("input", () => {
+    startTime.value = timeRegexForm(startTime.value);
   });
 
-  inputEndTime.addEventListener("input", () => {
-    inputEndTime.value = timeRegexForm(inputEndTime.value);
+  endTime.addEventListener("input", () => {
+    endTime.value = timeRegexForm(endTime.value);
   });
 
+  // 입력값 유효성 검사 및 입력 추가 진행
   inputScheduleBtn.addEventListener("click", () => {
     try {
-      validateContent();
-      validateTime(inputStartTime, "시작시간");
-      validateTime(inputStartTime, "종료시간");
-      validateTimeRelationship();
+      isValidateContent(content.value);
+      isValidateTime(startTime.value, "시작시간");
+      isValidateTime(endTime.value, "종료시간");
+      isValidateTimeRelationship(startTime.value, endTime.value);
       location.href =
         "../ACTION/CreateScheduleAction.jsp?content=" +
-        inputContent.value +
+        content.value +
         "&start_time=" +
-        inputStartTime.value +
+        startTime.value +
         "&end_time=" +
-        inputEndTime.value +
+        endTime.value +
         "&writer=" +
         idx +
         "&year=" +
@@ -235,27 +245,6 @@ if (inputScheduleBox) {
       alert(error.message);
     }
   });
-
-  function validateContent() {
-    if (!isValidate(validationRules[4].regex, inputContent)) {
-      throw new Error(validationRules[4].message);
-    }
-  }
-
-  function validateTime(inputTime, key) {
-    if (inputTime.value == "") {
-      throw new Error(key + "을 입력해 주세요");
-    }
-    if (!isValidTime(inputTime.value)) {
-      throw new Error("00:00~23:59까지 입력 가능합니다");
-    }
-  }
-
-  function validateTimeRelationship() {
-    if (!isValidTime(inputStartTime.value, inputEndTime.value)) {
-      throw new Error("종료시각은 시작시간보다 이후로 설정해주세요");
-    }
-  }
 }
 // ================================================================================================================ //
 
