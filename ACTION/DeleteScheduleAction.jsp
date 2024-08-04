@@ -34,6 +34,6 @@
 %>
 
 <script>
-    location.href="../PAGE/SelectSchedulePage.jsp?key=0&idx=<%=userIdx%>+&year=<%=year%>+&month=<%=month%>+&day=<%=day%>"
-    alert("삭제가 완료되었습니다")
+    location.href ="../PAGE/SelectSchedulePage.jsp?key=0&idx=<%=userIdx%>+&year=<%=year%>+&month=<%=month%>+&day=<%=day%>"
+    alert("일정 삭제가 완료되었습니다")
 </script>

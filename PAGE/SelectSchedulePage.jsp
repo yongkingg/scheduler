@@ -105,6 +105,10 @@
   <script>
     let idx = null
     if (<%=isLogined%>) {idx = "<%=logInIdx%>"}
+    if ("<%=userIdx%>" != "null" && idx != "<%=userIdx%>") {
+        idx = "<%=userIdx%>"
+        key = 1
+      } 
   </script>
   <script src="../JS/Global/regex.js"></script>
   <script src="../JS/SelectSchedulePage.js"></script>

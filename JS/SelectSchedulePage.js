@@ -215,9 +215,11 @@ if (inputScheduleBox) {
   }
 }
 // ================================================================================================================ //
-
-// 뒤로가기 기능 추가해야함
-window.addEventListener("popstate", (event) => {
-  console.log("123");
+window.history.pushState({ page: 2 }, "SelectSchedulePage", location.href);
+console.log(window.history.state);
+window.addEventListener("popstate", () => {
+  window.location.href =
+    "../PAGE/SchedulePage.jsp?idx=" + idx + "&year=" + year + "&month=" + month;
 });
-history.pushState(null, "", location.href);
+
+// action에서 history 제거
