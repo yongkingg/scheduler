@@ -64,6 +64,18 @@ function isValidTime(startTime, endTime) {
   // 두 값이 모두 전달되지 않은 경우
   return false;
 }
+
+function isValuesChanged(values) {
+  var anyChanged = false;
+  for (var item of values) {
+    if (item.dataset.originalText != item.value) {
+      anyChanged = true;
+      break;
+    }
+  }
+  return anyChanged;
+}
+
 function isTeamChecked() {
   var radioButtons = document.querySelectorAll('input[name="group"]');
   for (var radio of radioButtons) {

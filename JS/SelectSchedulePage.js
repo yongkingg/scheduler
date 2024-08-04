@@ -5,6 +5,7 @@ const cancelBtn = createCancelBtn();
 
 let clickedBtnIdx;
 
+// ==================================== 지난 일정 회색 처리 ============================================
 var schedules = document.querySelectorAll(".schedule");
 Array.from(schedules).forEach((element) => {
   var endTime = element.querySelector(".edit_end_time_input").innerText;
@@ -14,7 +15,52 @@ Array.from(schedules).forEach((element) => {
     endScheduleContent.classList.add("end_schedule_content");
   }
 });
+// =========================================================================================================
 
+// ============================================= 요소 동적 생성 ============================================
+function createSubmitButton() {
+  var submitButton = document.createElement("button");
+  submitButton.classList.add("edit_schedule", "bold_text");
+  submitButton.innerText = "완료";
+  submitButton.addEventListener("click", submitEvent);
+  return submitButton;
+}
+
+function createInputTag(content, style) {
+  var inputTag = document.createElement("input");
+  inputTag.value = content;
+  inputTag.classList.add(style, "bold_text");
+  if (
+    inputTag.classList.contains("edit_start_time_input") ||
+    inputTag.classList.contains("edit_end_time_input")
+  ) {
+    inputTag.addEventListener("input", () => {
+      inputTag.value = timeRegexForm(inputTag.value);
+    });
+    inputTag.maxLength = "5";
+  }
+  inputTag.dataset.originalText = content;
+  return inputTag;
+}
+
+function createPTag(content, style) {
+  var pTag = document.createElement("p");
+  pTag.textContent = content;
+  pTag.dataset.originalText = content;
+  pTag.classList.add(style, "bold_text");
+  return pTag;
+}
+
+function createCancelBtn() {
+  var cancelBtn = document.createElement("button");
+  cancelBtn.classList.add("delete_schedule", "bold_text");
+  cancelBtn.innerText = "취소";
+  cancelBtn.addEventListener("click", cancelEvent);
+  return cancelBtn;
+}
+// =========================================================================================================
+
+// ==========================================버튼 이벤트 등록================================================
 var editButtons = document.querySelectorAll(".edit_schedule");
 Array.from(editButtons).forEach((element, index) => {
   element.addEventListener("click", (event) => editEvent(event, index));
@@ -72,14 +118,6 @@ function editEvent(event, index) {
   schedule.replaceChild(contentInputTag, contentTag);
 }
 
-function createSubmitButton() {
-  var submitButton = document.createElement("button");
-  submitButton.classList.add("edit_schedule", "bold_text");
-  submitButton.innerText = "완료";
-  submitButton.addEventListener("click", submitEvent);
-  return submitButton;
-}
-
 function submitEvent(event) {
   var submitConfirm = confirm("일정을 수정하시겠습니까?");
   if (submitConfirm) {
@@ -88,6 +126,16 @@ function submitEvent(event) {
     var content = schedule.querySelector(".edit_schedule_input");
     var startTime = schedule.querySelector(".edit_start_time_input");
     var endTime = schedule.querySelector(".edit_end_time_input");
+
+    // 입력값이 변했는지 체크하는 함수
+    var anyChanged = isValuesChanged([content, startTime, endTime]);
+    if (!anyChanged) {
+      alert(
+        "일정을 수정하려면, 시작시간, 종료시간, 일정 내용 중 한개 이상을 변경해야 합니다"
+      );
+      return;
+    }
+
     location.href =
       "../ACTION/UpdateScheduleAction.jsp?schedule_idx=" +
       scheduleIdx +
@@ -106,38 +154,6 @@ function submitEvent(event) {
       "&content=" +
       content.value;
   }
-}
-
-function createInputTag(content, style) {
-  var inputTag = document.createElement("input");
-  inputTag.value = content;
-  inputTag.classList.add(style, "bold_text");
-  if (
-    inputTag.classList.contains("edit_start_time_input") ||
-    inputTag.classList.contains("edit_end_time_input")
-  ) {
-    inputTag.addEventListener("input", () => {
-      inputTag.value = timeRegexForm(inputTag.value);
-    });
-    inputTag.maxLength = "5";
-  }
-  inputTag.dataset.originalText = content;
-  return inputTag;
-}
-
-function createPTag(content, style) {
-  var pTag = document.createElement("p");
-  pTag.textContent = content;
-  pTag.classList.add(style, "bold_text");
-  return pTag;
-}
-
-function createCancelBtn() {
-  var cancelBtn = document.createElement("button");
-  cancelBtn.classList.add("delete_schedule", "bold_text");
-  cancelBtn.innerText = "취소";
-  cancelBtn.addEventListener("click", cancelEvent);
-  return cancelBtn;
 }
 
 function cancelEvent(event) {
@@ -166,7 +182,9 @@ function cancelEvent(event) {
     itemBox.replaceChild(endTime, endTimeInputTag);
   }
 }
-// ==================================================일정 추가====================================================== //
+// ===============================================================================================================
+
+// ==============================================일정 추가 영역 이벤트=============================================== //
 var inputScheduleBox = document.getElementById("input_schedule_box");
 if (inputScheduleBox) {
   var inputContent = document.getElementById("input_content");
@@ -230,9 +248,12 @@ if (inputScheduleBox) {
   }
 }
 // ================================================================================================================ //
+
+// ==============================================뒤로가기 버튼 이벤트=============================================== //
 window.history.pushState({ page: 2 }, "SelectSchedulePage", location.href);
 console.log(window.history.state);
 window.addEventListener("popstate", () => {
   window.location.href =
     "../PAGE/SchedulePage.jsp?idx=" + idx + "&year=" + year + "&month=" + month;
 });
+// ================================================================================================================ //
