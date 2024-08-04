@@ -1,9 +1,12 @@
 const date = document.getElementById("date").innerText;
 const [, year, month, day] = date.match(/(\d{4})년 (\d{1,2})월 (\d{1,2})일/);
-const submitButton = createSubmitButton();
-const cancelBtn = createCancelBtn();
 
-let clickedBtnIdx;
+// let submitButton = createSubmitButton();
+let submitBtns = [];
+// let cancelBtn = createCancelBtn();
+let cancelBtns = [];
+var editButtons = document.querySelectorAll(".edit_schedule");
+var deleteButtons = document.querySelectorAll(".delete_schedule");
 
 // ==================================== 지난 일정 회색 처리 ============================================
 var schedules = document.querySelectorAll(".schedule");
@@ -18,11 +21,15 @@ Array.from(schedules).forEach((element) => {
 // =========================================================================================================
 
 // ============================================= 요소 동적 생성 ============================================
+for (var index = 0; index < editButtons.length; index++) {
+  submitBtns.push(createSubmitButton());
+  cancelBtns.push(createCancelBtn());
+}
+
 function createSubmitButton() {
   var submitButton = document.createElement("button");
   submitButton.classList.add("edit_schedule", "bold_text");
   submitButton.innerText = "완료";
-  submitButton.addEventListener("click", submitEvent);
   return submitButton;
 }
 
@@ -55,20 +62,25 @@ function createCancelBtn() {
   var cancelBtn = document.createElement("button");
   cancelBtn.classList.add("delete_schedule", "bold_text");
   cancelBtn.innerText = "취소";
-  cancelBtn.addEventListener("click", cancelEvent);
   return cancelBtn;
 }
 // =========================================================================================================
 
 // ==========================================버튼 이벤트 등록================================================
-var editButtons = document.querySelectorAll(".edit_schedule");
 Array.from(editButtons).forEach((element, index) => {
   element.addEventListener("click", (event) => editEvent(event, index));
 });
 
-var deleteButtons = document.querySelectorAll(".delete_schedule");
 Array.from(deleteButtons).forEach((element, index) => {
   element.addEventListener("click", (event) => deleteEvent(event, index));
+});
+
+Array.from(submitBtns).forEach((element, index) => {
+  element.addEventListener("click", (event) => submitEvent(event, index));
+});
+
+Array.from(cancelBtns).forEach((element, index) => {
+  element.addEventListener("click", (event) => cancelEvent(event, index));
 });
 
 function deleteEvent(event, index) {
@@ -92,7 +104,6 @@ function deleteEvent(event, index) {
 
 function editEvent(event, index) {
   var schedule = event.target.closest(".schedule");
-  clickedBtnIdx = index;
 
   var contentTag = schedule.querySelector(".schedule_content");
   var startTime = schedule.querySelector(".edit_start_time_input");
@@ -111,14 +122,14 @@ function editEvent(event, index) {
   );
 
   var itemBox = event.target.parentElement;
-  itemBox.replaceChild(submitButton, event.target);
-  itemBox.replaceChild(cancelBtn, deleteButtons[clickedBtnIdx]);
+  itemBox.replaceChild(submitBtns[index], event.target);
+  itemBox.replaceChild(cancelBtns[index], deleteButtons[index]);
   itemBox.replaceChild(startTimeInputTag, startTime);
   itemBox.replaceChild(endTimeInputTag, endTime);
   schedule.replaceChild(contentInputTag, contentTag);
 }
 
-function submitEvent(event) {
+function submitEvent(event, index) {
   var submitConfirm = confirm("일정을 수정하시겠습니까?");
   if (submitConfirm) {
     var schedule = event.target.closest(".schedule");
@@ -127,7 +138,7 @@ function submitEvent(event) {
     var startTime = schedule.querySelector(".edit_start_time_input");
     var endTime = schedule.querySelector(".edit_end_time_input");
 
-    // 입력값이 변했는지 체크하는 함수
+    // 입력값이 변했는지 체크
     var anyChanged = isValuesChanged([content, startTime, endTime]);
     if (!anyChanged) {
       alert(
@@ -135,7 +146,6 @@ function submitEvent(event) {
       );
       return;
     }
-
     location.href =
       "../ACTION/UpdateScheduleAction.jsp?schedule_idx=" +
       scheduleIdx +
@@ -156,7 +166,7 @@ function submitEvent(event) {
   }
 }
 
-function cancelEvent(event) {
+function cancelEvent(event, index) {
   var deleteConfirm = confirm("수정을 취소하시겠습니까?");
   if (deleteConfirm) {
     var schedule = event.target.closest(".schedule");
@@ -176,8 +186,8 @@ function cancelEvent(event) {
 
     var itemBox = event.target.parentElement;
     schedule.replaceChild(contentTag, inputTag);
-    itemBox.replaceChild(editButtons[clickedBtnIdx], submitButton);
-    itemBox.replaceChild(deleteButtons[clickedBtnIdx], cancelBtn);
+    itemBox.replaceChild(editButtons[index], submitBtns[index]);
+    itemBox.replaceChild(deleteButtons[index], cancelBtns[index]);
     itemBox.replaceChild(startTime, startTimeInputTag);
     itemBox.replaceChild(endTime, endTimeInputTag);
   }
