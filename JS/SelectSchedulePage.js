@@ -1,10 +1,19 @@
 const date = document.getElementById("date").innerText;
 const [, year, month, day] = date.match(/(\d{4})년 (\d{1,2})월 (\d{1,2})일/);
-
 const submitButton = createSubmitButton();
 const cancelBtn = createCancelBtn();
 
 let clickedBtnIdx;
+
+var schedules = document.querySelectorAll(".schedule");
+Array.from(schedules).forEach((element) => {
+  var endTime = element.querySelector(".edit_end_time_input").innerText;
+  if (!isValidTime(currentTime, endTime)) {
+    var endScheduleContent = element.querySelector(".schedule_content");
+    element.classList.add("end_schedule_background");
+    endScheduleContent.classList.add("end_schedule_content");
+  }
+});
 
 var editButtons = document.querySelectorAll(".edit_schedule");
 Array.from(editButtons).forEach((element, index) => {

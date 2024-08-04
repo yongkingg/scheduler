@@ -5,7 +5,6 @@
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="utils.Utils" %>
 
-
 <%
     request.setCharacterEncoding("utf-8");
     String scheduleIdx = request.getParameter("schedule_idx");
@@ -35,7 +34,6 @@
         out.println("</script>");
         return;
     }
-    
     try {
         Class.forName("org.mariadb.jdbc.Driver");
         Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");

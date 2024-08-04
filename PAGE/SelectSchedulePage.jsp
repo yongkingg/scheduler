@@ -6,6 +6,7 @@
 <%@ page import="java.util.Date" %>
 <%@ page import="utils.Utils" %>
 
+
 <%
   request.setCharacterEncoding("utf-8");
 
@@ -16,8 +17,11 @@
   String month = Utils.filterNumbers(request.getParameter("month"));
   String year = Utils.filterNumbers(request.getParameter("year"));
   String userIdx = request.getParameter("idx");
-  String name = "";
+  // =================================================== 현재 시간 설정 =====================================================
+  String currentTime = Utils.getCurrentTime();
+  // =======================================================================================================================
 
+  // =================================================== 페이지 접근 권한 설정 ===============================================
   String logInIdx = (String) session.getAttribute("idx");
   boolean isLogined = false;
   if (logInIdx == null) {
@@ -25,7 +29,10 @@
   } else {
     isLogined = true;
   }
+  // =======================================================================================================================
+
   // ================================================== 이름 가져오기 =======================================================
+  String name = "";
   String getNameSql = "SELECT name FROM account WHERE idx=?";
   PreparedStatement getNameQuery = connect.prepareStatement(getNameSql);
   getNameQuery.setString(1,userIdx);
@@ -33,6 +40,7 @@
   if (getNameResult.next()) {
     name = getNameResult.getString("name");
   }
+  // =======================================================================================================================
 
   // ================================================== 리스트 내용 가져오기 =======================================================
   String getScheduleSql = "SELECT idx, DATE_FORMAT(start_time, '%H:%i') AS start_time, DATE_FORMAT(end_time, '%H:%i') AS end_time, schedule.content FROM schedule WHERE YEAR(date) = ? AND MONTH(date) = ? AND DAY(date) = ? AND writer = ? ORDER BY start_time ASC;";
@@ -100,6 +108,7 @@
   </main>
   <script>
     let idx = null
+    let currentTime = "<%=currentTime%>"
     if (<%=isLogined%>) {idx = "<%=logInIdx%>"}
     if ("<%=userIdx%>" != "null" && idx != "<%=userIdx%>") {
         idx = "<%=userIdx%>"
