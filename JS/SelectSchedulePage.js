@@ -205,16 +205,17 @@ function cancelEvent(event, index) {
 
 // ==============================================일정 추가 영역 이벤트=============================================== //
 var inputScheduleBox = document.getElementById("input_schedule_box");
+// 입력 영역이 있을때만 코드 실행
 if (inputScheduleBox) {
   var content = document.getElementById("input_content");
   var startTime = document.getElementById("input_start");
   var endTime = document.getElementById("input_end");
   var inputScheduleBtn = document.getElementById("input_schedule_btn");
 
+  // 시간 입력 형식 자동변환
   startTime.addEventListener("input", () => {
     startTime.value = timeRegexForm(startTime.value);
   });
-
   endTime.addEventListener("input", () => {
     endTime.value = timeRegexForm(endTime.value);
   });

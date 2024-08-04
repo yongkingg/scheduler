@@ -17,7 +17,7 @@ signUpBtn.addEventListener("click", (event) => {
   event.preventDefault();
   const inputs = [inputId, inputPw, inputName, inputContact];
   for (let i = 0; i < inputs.length; i++) {
-    if (!validationRules[i].regex.test(inputs[i])) {
+    if (!validationRules[i].regex.test(inputs[i].value)) {
       alert(validationRules[i].message);
       return;
     } else if (inputPw.value !== inputCheckPw.value) {

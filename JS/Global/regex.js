@@ -5,6 +5,7 @@ const contactRegex = /^(0[2-9]\d{1,2}|010)-(\d{3,4})-(\d{4})$/;
 const nameRegex = /^[가-힣]{2,6}$/;
 const scheduleRegex = /^.{4,50}$/;
 const timeRegex = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
+
 const validationRules = [
   {
     regex: idRegex,

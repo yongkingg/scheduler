@@ -11,7 +11,6 @@
 
 <%
     request.setCharacterEncoding("utf-8");
-
     // ==============================================입력 값 검증=============================================
     String idValue = request.getParameter("id");
     String pwValue = request.getParameter("pw");
@@ -39,7 +38,7 @@
     try {
         Class.forName("org.mariadb.jdbc.Driver");
         Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
-        String signUpSql = "INSERT INTO account (id, pw, name, contact, department) VALUES (?,?,?,?, (SELECT idx FROM department WHERE name = ?))";
+        String signUpSql = "INSERT INTO account (id, pw, name, contact, department) VALUES (?,?,?,?, (SELECT idx FROM department WHERE group_name = ?))";
         PreparedStatement signUpQuery = connect.prepareStatement(signUpSql);
         signUpQuery.setString(1, idValue);
         signUpQuery.setString(2, pwValue);
