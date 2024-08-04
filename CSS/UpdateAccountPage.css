@@ -18,6 +18,10 @@ section {
   padding: 50px 65px 45px 65px;
 }
 
+section p {
+  margin-top: 8px;
+}
+
 .group_box div {
   display: flex;
   flex-direction: row;

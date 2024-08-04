@@ -1,5 +1,3 @@
-import { nameRegex, contactRegex } from "../JS/Global/regex.js";
-
 var inputContact = document.getElementById("input_contact");
 var updateBtn = document.getElementById("update_btn");
 updateBtn.addEventListener("click", () => {
