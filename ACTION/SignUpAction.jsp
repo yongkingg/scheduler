@@ -5,6 +5,7 @@
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.util.LinkedHashMap" %>
 <%@ page import="utils.Utils" %>
+<%@ page import="utils.Regex" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.util.regex.Matcher" %>
 <%@ page import="java.util.regex.Pattern" %>
@@ -13,27 +14,38 @@
     request.setCharacterEncoding("utf-8");
     // ==============================================입력 값 검증=============================================
     String idValue = request.getParameter("id");
-    String pwValue = request.getParameter("pw");
+    String pwValue = request.getParameter("password");
     String nameValue = request.getParameter("name");
     String contactValue = request.getParameter("contact");
     String groupValue = request.getParameter("group");
-    LinkedHashMap<String, String> values = new LinkedHashMap<>();
-    values.put("아이디", idValue);
-    values.put("비밀번호", pwValue);
-    values.put("이름", nameValue);
-    values.put("연락처", contactValue);
+
+    // 값 타입을 Object로 변경하여 다양한 타입 저장 가능
+    LinkedHashMap<String, Object> values = new LinkedHashMap<>();
+    values.put("아이디", Regex.isValidInput(idValue, Regex.ID_REGEX));
+    values.put("비밀번호", Regex.isValidInput(pwValue, Regex.PW_REGEX));
+    values.put("이름", Regex.isValidInput(nameValue, Regex.NAME_REGEX));
+    values.put("연락처", Regex.isValidInput(contactValue, Regex.CONTACT_REGEX));
     values.put("부서", groupValue);
+
+    // 확인할 값들을 반복
     for (String key : values.keySet()) {
-        String getValue = values.get(key);
-        if(Utils.isNullOrEmpty(getValue)) {
+        Object getValue = values.get(key);
+        if (getValue instanceof String && Utils.isNullOrEmpty((String) getValue)) {
             session.setAttribute("message", key + "를 다시 입력해 주세요");
+            response.sendRedirect("../PAGE/SignUpPage.jsp");
+            return;
+        } else if (getValue instanceof Boolean && !((Boolean) getValue)) {
+            session.setAttribute("message", key + "가 유효하지 않습니다.");
             response.sendRedirect("../PAGE/SignUpPage.jsp");
             return;
         }
     }
     // ======================================================================================================
 
-    // ============================================== db 값 입력=============================================
+    // ==============================================입력 값 유효성 검사=============================================
+
+
+    // // ============================================== db 값 입력=============================================
     String errorMessage = "";
     try {
         Class.forName("org.mariadb.jdbc.Driver");

@@ -39,7 +39,7 @@
       </label>
       <label for="input_pw">
         <p>비밀번호</p>
-        <input id="input_pw" name="pw" class="input_config" placeholder="비밀번호 (8~20자 영문+숫자+특수기호)" type="password"></input>
+        <input id="input_pw" name="password" class="input_config" placeholder="비밀번호 (8~20자 영문+숫자+특수기호)" type="password"></input>
       </label>
       <label for="check_pw">
         <p>비밀번호 재입력</p>
