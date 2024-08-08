@@ -12,10 +12,7 @@
     if (logInIdx == null) {
         response.sendRedirect("../index.jsp");
         return;
-    } else if (writerIdx != logInIdx) {
-        out.println("history.back();");
-        return;
-    }
+    } 
 
     request.setCharacterEncoding("utf-8");
     String content = request.getParameter("content");

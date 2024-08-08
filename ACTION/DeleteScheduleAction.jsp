@@ -12,7 +12,7 @@
     if (logInIdx == null) {
         response.sendRedirect("../index.jsp");
         return;
-    } else if (userIdx != logInIdx) {
+    } else if (!logInIdx.equals(writerIdx)) {
         out.println("history.back();");
         return;
     }

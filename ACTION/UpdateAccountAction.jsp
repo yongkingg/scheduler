@@ -21,7 +21,6 @@
     String name = request.getParameter("name");
     String contact = request.getParameter("contact");
     String department = request.getParameter("group");
-    String idx = (String) session.getAttribute("idx");
 
     if (Utils.isNullOrEmpty(name)) {
         out.println("<script>");
@@ -46,7 +45,7 @@
         updateAccountInfoQuery.setString(1, name);
         updateAccountInfoQuery.setString(2, contact);
         updateAccountInfoQuery.setString(3, department);
-        updateAccountInfoQuery.setInt(4, Integer.parseInt(idx));
+        updateAccountInfoQuery.setInt(4, Integer.parseInt(logInIdx));
         updateAccountInfoQuery.executeUpdate();
         out.println("<script>alert('수정이 완료되었습니다')</script>");
         out.println("<script>location.href='../PAGE/UpdateAccountPage.jsp?'</script>");

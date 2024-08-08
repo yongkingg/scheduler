@@ -7,9 +7,13 @@
 
 <%
     String logInIdx = (String) session.getAttribute("idx");
+    String writerIdx = request.getParameter("writer");  
     boolean isLogined = false;
     if (logInIdx == null) {
         response.sendRedirect("../index.jsp");
+        return;
+    } else if (!logInIdx.equals(writerIdx)) {
+        out.println("history.back();");
         return;
     }
 
@@ -21,7 +25,6 @@
     String day = request.getParameter("day");
     String startTime = request.getParameter("start_time");
     String endTime = request.getParameter("end_time");
-    String writerIdx = request.getParameter("writer");
     if (Utils.isNullOrEmpty(content)) {
         out.println("<script>");
         out.println("alert('일정 내용을 다시 입력해 주세요');");
