@@ -38,6 +38,7 @@
         Class.forName("org.mariadb.jdbc.Driver");
         Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
         String updateScheduleSql = "UPDATE schedule SET start_time=?, end_time=?, content=? WHERE idx=?";
+        // 여기에 session idx 추가해야함
         PreparedStatement updateScheduleQuery = connect.prepareStatement(updateScheduleSql);
         updateScheduleQuery.setString(1, startTime);
         updateScheduleQuery.setString(2, endTime);

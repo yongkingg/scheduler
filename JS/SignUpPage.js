@@ -14,7 +14,8 @@ inputContact.addEventListener("input", () => {
 
 var signUpBtn = document.getElementById("sign_up_btn");
 signUpBtn.addEventListener("click", (event) => {
-  event.preventDefault();
+  event.preventDefault(); // submit 버튼이 자동으로 제출하는거기때문에, button 태그라면 필요없다
+  // 여기는 그냥 if문 6개 쓰는게 낫다
   const inputs = [inputId, inputPw, inputName, inputContact];
   for (var index = 0; index < inputs.length; index++) {
     if (!validationRules[index].regex.test(inputs[index].value)) {

@@ -5,7 +5,6 @@
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="utils.Utils" %>
 
-
 <%
     request.setCharacterEncoding("utf-8");
     String content = request.getParameter("content");
@@ -35,7 +34,7 @@
         out.println("</script>");
         return;
     }
-
+    // 정규표현식으로 하셈, jqeury로 받아온 값도 예외처리 하셈
     try {
         Class.forName("org.mariadb.jdbc.Driver");
         Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");

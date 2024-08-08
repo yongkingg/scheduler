@@ -145,8 +145,10 @@ function submitEvent(event) {
       );
       return;
     }
+    // 이런건 고객의 편의가 더 중요하지 않나 ..
 
     // 입력값 유효성 검사 및 수정 진행
+    // idx는 세션에 있는 값을 사용하면 되는데, 굳이 query로 보내야 할 이유가 없다
     try {
       isValidateContent(content.value);
       isValidateTime(startTime.value, "시작시간");

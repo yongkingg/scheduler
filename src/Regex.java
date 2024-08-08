@@ -26,7 +26,7 @@ public class Regex {
     public static boolean isValidInput(String input, String regex) {
         if (Utils.isNullOrEmpty(input)) {
             return false;
-        }
+        } 
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
         return matcher.matches();

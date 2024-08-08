@@ -19,7 +19,6 @@
     String contactValue = request.getParameter("contact");
     String groupValue = request.getParameter("group");
 
-    // 값 타입을 Object로 변경하여 다양한 타입 저장 가능
     LinkedHashMap<String, Object> values = new LinkedHashMap<>();
     values.put("아이디", Regex.isValidInput(idValue, Regex.ID_REGEX));
     values.put("비밀번호", Regex.isValidInput(pwValue, Regex.PW_REGEX));

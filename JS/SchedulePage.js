@@ -1,12 +1,14 @@
-// =========================================ASIDE========================================= //
-var asideBtn = document.getElementById("aside_btn");
-var aside = document.getElementById("aside");
-var profileBox = document.getElementById("profile_box");
-var memberBox = document.querySelector(".member_box");
-var accountBtnBox = document.querySelector(".account_btn_box");
-var isOpened = false;
+var year = document.getElementById("year");
+var month = document.getElementById("month");
 
+// =========================================ASIDE========================================= //
+var isOpened = false;
+var asideBtn = document.getElementById("aside_btn");
 asideBtn.addEventListener("click", () => {
+  var aside = document.getElementById("aside");
+  var profileBox = document.getElementById("profile_box");
+  var memberBox = document.querySelector(".member_box");
+  var accountBtnBox = document.querySelector(".account_btn_box");
   if (!isOpened) {
     aside.style.width = "340px"; /* 확장된 너비 설정 */
     profileBox.classList.remove("hide");
@@ -27,14 +29,11 @@ asideBtn.addEventListener("click", () => {
     isOpened = false;
   }
 });
-
 // ======================================================================================= //
 
 // =========================================CALAENDER===================================== //
 var leftBtn = document.getElementById("left_btn");
 var rightBtn = document.getElementById("right_btn");
-var year = document.getElementById("year");
-var month = document.getElementById("month");
 
 leftBtn.addEventListener("click", () => {
   var currentYear = parseInt(year.innerText);

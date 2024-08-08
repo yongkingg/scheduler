@@ -4,6 +4,7 @@
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="utils.Utils" %>
+<%@ page import="utils.Regex" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.util.regex.Matcher" %>
 <%@ page import="java.util.regex.Pattern" %>

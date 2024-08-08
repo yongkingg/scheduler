@@ -13,6 +13,8 @@
   request.setCharacterEncoding("utf-8");
   // ==================================== 날짜구하기 ==================================== //
   Calendar calendar = new GregorianCalendar();
+
+  // year month는 같이 받는게 맞았다.
   String month = request.getParameter("month");
   if (Utils.isNullOrEmpty(month)) {
     month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
@@ -35,33 +37,26 @@
   // ==================================================================================== //
 
   // ====================================로그인 계정, 직급 받기, 페이지 접근 권한 설정============================ //
-  String role = "";
+  boolean role = false; 
+  // string으로 if문을 쓰는걸 지양해야한다. 왜냐면 오타 검증 불가능 이거는 변수로 쓰는게 맞았다.
   String clickedMemberIdx = request.getParameter("idx"); // 팀장의 경우, 팀원의 일정 보기 클릭했을때, 해당 계정의 idx를 저장하기 위해 사용
+  // key 겹치지 않게 사용 (위 아래)
   String logInIdx = (String) session.getAttribute("idx");
   boolean isLogined = false;
   if (logInIdx == null) {
     // 세션 미존재 시 페이지 접근 제한
     response.sendRedirect("../index.jsp");
+    return;
   } else {
     isLogined = true;
-    role = "1".equals((String) session.getAttribute("role")) ? "팀장" : "2".equals((String) session.getAttribute("role")) ? "팀원" : "";
+    role = "1".equals((String) session.getAttribute("role")) ? true : "2".equals((String) session.getAttribute("role")) ? false : false;
   }
   // ========================================================================================================================= //
 
   // =====================================================계정 정보 받기 정보 받기============================================== //
   Class.forName("org.mariadb.jdbc.Driver");
   Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
-  String getUserInfoSql = "SELECT " +
-    "a.idx AS account_idx, " +
-    "a.id, " +
-    "a.name, " +
-    "a.contact, " +
-    "r.role_name AS role, " +
-    "d.group_name AS department " +
-    "FROM account a " +
-    "JOIN role r ON a.role = r.idx " +
-    "JOIN department d ON a.department = d.idx " +
-    "WHERE a.idx = ?;";
+  String getUserInfoSql = "SELECT a.idx AS account_idx, a.id, a.name, a.contact, r.role_name AS role, d.group_name AS department FROM account a JOIN role r ON a.role = r.idx JOIN department d ON a.department = d.idx WHERE a.idx = ?;";
   PreparedStatement getUserInfoQuery = connect.prepareStatement(getUserInfoSql);
   getUserInfoQuery.setString(1, logInIdx);
   ResultSet getInfoResult = getUserInfoQuery.executeQuery();
@@ -75,16 +70,16 @@
     contact = getInfoResult.getString("contact");
     department = getInfoResult.getString("department");
   }
-  // =================================================팀원 가져오기(팀장의 경우)============================================================= //
+  // =================================================팀원 가져오기(팀장의 경우)==================================================== //
   ResultSet getMemberResult = null;
-  if (role.equals("팀장")) {
+  if (role) {
     String getMemberSql = "SELECT idx, name FROM account WHERE department=(SELECT idx FROM department WHERE group_name=?) AND role=2";
     PreparedStatement getMemberQuery = connect.prepareStatement(getMemberSql);
     getMemberQuery.setString(1, department);
     getMemberResult = getMemberQuery.executeQuery();
   }
-  
   // =====================================================일정 가져오기========================================================== //
+  // 팀장인 경우에만 url로 index 접근 가능하게 .. (권한 추가해야함)
   LinkedHashMap<Integer, Integer> scheduleList = new LinkedHashMap<>();
   String getScheduleSql = "SELECT DAY(date) AS day FROM schedule WHERE MONTH(date) = ? AND YEAR(date) = ? AND writer=? ORDER BY date ASC;";
   PreparedStatement getScheduleQuery = connect.prepareStatement(getScheduleSql);
@@ -95,6 +90,8 @@
   } else if (clickedMemberIdx != logInIdx) {
     getScheduleQuery.setString(3, clickedMemberIdx);
   }
+  // =========================== 피드백 =========================== // 
+  // 여기에 권한을 체크해야함 권한을 체크한 뒤 모든게 다 통과되면 그때 sql, query를 만들고 데이터를 가져오고, 권한이 없다면 실행하지 않게 수정해야함. 
   ResultSet getScheduleResult = getScheduleQuery.executeQuery();
   while (getScheduleResult.next()) {
     Integer date = getScheduleResult.getInt("day");
@@ -130,7 +127,7 @@
     </div>
     <div class="member_box hide">
       <%
-        if (role.equals("팀장")) {
+        if (role) {
           while (getMemberResult.next()){
             String memberIdx = getMemberResult.getString("idx");
       %>

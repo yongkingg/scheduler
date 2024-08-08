@@ -25,6 +25,7 @@
         Class.forName("org.mariadb.jdbc.Driver");       
         Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
         String deleteScheduleSql = "DELETE FROM schedule WHERE idx=?";
+        // account idx 추가해야함.
         PreparedStatement deleteScheduleQuery = connect.prepareStatement(deleteScheduleSql);
         deleteScheduleQuery.setString(1, scheduleIdx);
         deleteScheduleQuery.executeUpdate();

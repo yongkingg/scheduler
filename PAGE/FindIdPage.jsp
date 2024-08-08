@@ -18,6 +18,7 @@
       // response.setHeader("Pragma", "no-cache");
       // response.setDateHeader("Expires", 0);
   }
+  
   request.setCharacterEncoding("utf-8");
   Class.forName("org.mariadb.jdbc.Driver");
   Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");

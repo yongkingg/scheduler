@@ -10,6 +10,8 @@
 <%
   request.setCharacterEncoding("utf-8");
 
+  //  페이지 접근 권한으로, url로 idx를 조작할 수 있는 문제가 발생한다.
+
   Class.forName("org.mariadb.jdbc.Driver");
   Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
   String key = request.getParameter("key");
