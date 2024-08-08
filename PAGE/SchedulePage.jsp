@@ -13,7 +13,7 @@
   request.setCharacterEncoding("utf-8");
   // ==================================== 날짜구하기 ==================================== //
   Calendar calendar = new GregorianCalendar();
-
+  
   // year month는 같이 받는게 맞았다.
   String month = request.getParameter("month");
   if (Utils.isNullOrEmpty(month)) {
@@ -227,7 +227,6 @@
       idx = "<%=logInIdx%>"
       key = 0
     }
-    // 팀장이 팀원 눌렀을때
     if (clickedMemberIdx != "null" && idx != clickedMemberIdx) {
         idx = "<%=clickedMemberIdx%>"
         key = 1
