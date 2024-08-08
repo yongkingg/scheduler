@@ -253,7 +253,6 @@ if (inputScheduleBox) {
 
 // ==============================================뒤로가기 버튼 이벤트=============================================== //
 window.history.pushState({ page: 2 }, "SelectSchedulePage", location.href);
-console.log(window.history.state);
 window.addEventListener("popstate", () => {
   window.location.href =
     "../PAGE/SchedulePage.jsp?idx=" + idx + "&year=" + year + "&month=" + month;

@@ -38,8 +38,6 @@
 
   // ====================================로그인 계정, 직급 받기, 페이지 접근 권한 설정============================ //
   boolean role = false; 
-  // string으로 if문을 쓰는걸 지양해야한다. 왜냐면 오타 검증 불가능 이거는 변수로 쓰는게 맞았다.
-  String clickedMemberIdx = request.getParameter("idx"); // 팀장의 경우, 팀원의 일정 보기 클릭했을때, 해당 계정의 idx를 저장하기 위해 사용
   // key 겹치지 않게 사용 (위 아래)
   String logInIdx = (String) session.getAttribute("idx");
   boolean isLogined = false;
@@ -50,6 +48,10 @@
   } else {
     isLogined = true;
     role = "1".equals((String) session.getAttribute("role")) ? true : "2".equals((String) session.getAttribute("role")) ? false : false;
+  }
+  String clickedMemberIdx = request.getParameter("idx"); // 팀장의 경우, 팀원의 일정 보기 클릭했을때, 해당 계정의 idx를 저장하기 위해 사용
+  if ((clickedMemberIdx != logInIdx) && !role) {
+    clickedMemberIdx = logInIdx;
   }
   // ========================================================================================================================= //
 
@@ -85,11 +87,11 @@
   PreparedStatement getScheduleQuery = connect.prepareStatement(getScheduleSql);
   getScheduleQuery.setString(1, month);
   getScheduleQuery.setString(2, year);
-  if (clickedMemberIdx == null) {
+  if (clickedMemberIdx == null || clickedMemberIdx == logInIdx) {
     getScheduleQuery.setString(3, logInIdx);
   } else if (clickedMemberIdx != logInIdx) {
     getScheduleQuery.setString(3, clickedMemberIdx);
-  }
+  }   
   // =========================== 피드백 =========================== // 
   // 여기에 권한을 체크해야함 권한을 체크한 뒤 모든게 다 통과되면 그때 sql, query를 만들고 데이터를 가져오고, 권한이 없다면 실행하지 않게 수정해야함. 
   ResultSet getScheduleResult = getScheduleQuery.executeQuery();
