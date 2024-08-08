@@ -9,11 +9,10 @@
     String logInIdx = (String) session.getAttribute("idx");
     boolean isLogined = false;
     if (logInIdx == null) {
-        // 세션 미존재 시 페이지 접근 제한
         response.sendRedirect("../index.jsp");
         return;
     }
-    
+
     request.setCharacterEncoding("utf-8");
     String scheduleIdx = request.getParameter("schedule_idx");
     String content = request.getParameter("content");
@@ -45,13 +44,14 @@
     try {
         Class.forName("org.mariadb.jdbc.Driver");
         Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
-        String updateScheduleSql = "UPDATE schedule SET start_time=?, end_time=?, content=? WHERE idx=?";
+        String updateScheduleSql = "UPDATE schedule SET start_time=?, end_time=?, content=? WHERE idx=? AND writer=?";
         // 여기에 session idx 추가해야함
         PreparedStatement updateScheduleQuery = connect.prepareStatement(updateScheduleSql);
         updateScheduleQuery.setString(1, startTime);
         updateScheduleQuery.setString(2, endTime);
         updateScheduleQuery.setString(3, content);
         updateScheduleQuery.setString(4, scheduleIdx);
+        updateScheduleQuery.setString(5, logInIdx);
         updateScheduleQuery.executeUpdate();
         out.println("<script>alert('일정 수정이 완료되었습니다');</script>");
     } catch (Exception e) {

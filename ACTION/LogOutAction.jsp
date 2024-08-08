@@ -4,14 +4,6 @@
 <%@ page import="java.sql.PreparedStatement" %>
 
 <%
-    String logInIdx = (String) session.getAttribute("idx");
-    boolean isLogined = false;
-    if (logInIdx == null) {
-        // 세션 미존재 시 페이지 접근 제한
-        response.sendRedirect("../index.jsp");
-        return;
-    }
-    
     session.invalidate();
 %>
 

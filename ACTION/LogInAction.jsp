@@ -10,12 +10,11 @@
 <%
     String logInIdx = (String) session.getAttribute("idx");
     boolean isLogined = false;
-    if (logInIdx == null) {
-        // 세션 미존재 시 페이지 접근 제한
+    if (logInIdx != null) {
         response.sendRedirect("../index.jsp");
         return;
     }
-    
+
     String idValue = request.getParameter("id");
     String pwValue = request.getParameter("pw");
 

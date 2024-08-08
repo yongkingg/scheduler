@@ -6,14 +6,6 @@
 <%@ page import="utils.Utils" %>
 
 <%
-    String logInIdx = (String) session.getAttribute("idx");
-    boolean isLogined = false;
-    if (logInIdx == null) {
-        // 세션 미존재 시 페이지 접근 제한
-        response.sendRedirect("../index.jsp");
-        return;
-    }
-    
     request.setCharacterEncoding("utf-8");
     String idValue = request.getParameter("id");
     String contactValue = request.getParameter("contact");

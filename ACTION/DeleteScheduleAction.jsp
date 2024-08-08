@@ -7,15 +7,18 @@
 
 <%
     String logInIdx = (String) session.getAttribute("idx");
+    String userIdx = request.getParameter("idx");
     boolean isLogined = false;
     if (logInIdx == null) {
-        // 세션 미존재 시 페이지 접근 제한
         response.sendRedirect("../index.jsp");
         return;
+    } else if (userIdx != logInIdx) {
+        out.println("history.back();");
+        return;
     }
+
     request.setCharacterEncoding("utf-8");
     String scheduleIdx = request.getParameter("schedule_idx");
-    String userIdx = request.getParameter("idx");
     String year = request.getParameter("year");
     String month = request.getParameter("month");
     String day = request.getParameter("day");

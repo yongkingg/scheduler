@@ -7,22 +7,25 @@
 
 <%
     String logInIdx = (String) session.getAttribute("idx");
+    String writerIdx = request.getParameter("writer");
     boolean isLogined = false;
     if (logInIdx == null) {
-        // 세션 미존재 시 페이지 접근 제한
         response.sendRedirect("../index.jsp");
         return;
+    } else if (writerIdx != logInIdx) {
+        out.println("history.back();");
+        return;
     }
-    
+
     request.setCharacterEncoding("utf-8");
     String content = request.getParameter("content");
     String startTime = request.getParameter("start_time");
     String endTime = request.getParameter("end_time");
-    String writerIdx = request.getParameter("writer");
     String year = request.getParameter("year");
     String month = request.getParameter("month");
     String day = request.getParameter("day");
     String date = year + "-" + month + "-" + day;
+
     if (Utils.isNullOrEmpty(content)) {
         out.println("<script>");
         out.println("alert('일정 내용을 다시 입력해 주세요');");
@@ -42,7 +45,6 @@
         out.println("</script>");
         return;
     }
-    // 정규표현식으로 하셈, jqeury로 받아온 값도 예외처리 하셈
     try {
         Class.forName("org.mariadb.jdbc.Driver");
         Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "stageus", "1234");
